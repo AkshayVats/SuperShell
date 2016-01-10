@@ -1,0 +1,78 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=Microsoft.Windows.Shell"
+                     xmlns:ui="clr-namespace:SuperShell.Ui"
+                    xmlns:local="clr-namespace:SuperShell" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d">
+
+    <Style x:Key="HostStyle" TargetType="{x:Type Window}">
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+        <Setter Property="shell:WindowChrome.WindowChrome">
+            <Setter.Value>
+                <shell:WindowChrome 
+                    
+					GlassFrameThickness="-1"
+					ResizeBorderThickness="5"
+					CaptionHeight="20"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Window}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                        <Grid>
+
+                            <!-- This is the ContentPresenter that displays the window content. -->
+
+                            <!-- This is the ContentPresenter that displays the window content. -->
+                            <Border Margin="0,30,10,10" Height="Auto" >
+                                <ContentPresenter Content="{TemplateBinding Content}"/>
+                            </Border>
+                            <ui:CrossButton HorizontalAlignment="Right" Height="15" Margin="0,10,10,0" VerticalAlignment="Top" Width="15" Cursor="Hand"
+							shell:WindowChrome.IsHitTestVisibleInChrome="True"/>
+                            <TextBlock x:Name="label" Text="# Super Shell" Margin="10,10,0,0" VerticalAlignment="Top"  Foreground="Black" FontSize="12"/>
+                            <!--This is the transparent white rectangle that goes behind the window content.-->
+
+                            <!-- Window Border Content -->
+                            <!-- System Button -->
+
+                            <!-- Window Title -->
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+    <Style x:Key="ErrorStyle" TargetType="{x:Type UserControl}">
+        <Setter Property="Background" Value="Red"/>
+        <Setter Property="BorderBrush" Value="DarkRed"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderThickness" Value="1,0,1,1"/>
+        <Setter Property="FontFamily" Value="Consolas"/>
+    </Style>
+    <Style x:Key="NormalOutputStyle" TargetType="{x:Type UserControl}">
+        <Setter Property="Background" Value="#FFFEFFF9"/>
+        <Setter Property="BorderBrush" Value="#FF9FA2A4"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="BorderThickness" Value="1,0,1,1"/>
+        <Setter Property="FontFamily" Value="Consolas"/>
+    </Style>
+    <Style x:Key="TB_no_border" TargetType="{x:Type TextBox}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="FontFamily" Value="Consolas"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>  
+    </Style>
+    <Style x:Key="shell_active" TargetType="{x:Type Control}">
+        <Setter Property="Background" Value="White"/>
+    </Style>
+    <Style x:Key="shell_evaluating" TargetType="{x:Type Control}">
+        <Setter Property="Background" Value="#FFFDFCEB"/>
+    </Style>
+    <Style x:Key="shell_inactive" TargetType="{x:Type Control}">
+        <Setter Property="Background" Value="#FFF9F9F9"/>
+    </Style>
+    
+</ResourceDictionary>

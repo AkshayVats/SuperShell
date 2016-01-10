@@ -1,0 +1,17 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SuperShell.Ui"
+             xmlns:Avalon="clr-namespace:SuperShell.Ui.Avalon" x:Class="SuperShell.Ui.ShellCard"
+             mc:Ignorable="d" d:DesignWidth="300" Margin="0,0,0,5" >
+    <StackPanel x:Name="stackPanel">
+        <Border BorderThickness="1" BorderBrush="#FF9FA2A4">
+            <Grid x:Name="grid">
+                <Avalon:ShellInputControl x:Name="input" d:LayoutOverrides="Width" Padding="5" CommandEntered="ShellInputControl_CommandEntered" Evaluating="{x:Null}"/>
+            </Grid>
+        </Border>
+        
+    </StackPanel>
+</UserControl>
