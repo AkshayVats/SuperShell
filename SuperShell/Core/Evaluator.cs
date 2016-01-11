@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SuperShell.Core
 {
-    public class Evaluator:Mono.CSharp.Evaluator
+    public class Evaluator:Mono.CSharp.Evaluator, Bridge.Core.IShell
     {
         public class CompilerResult
         {
@@ -17,6 +18,8 @@ namespace SuperShell.Core
         }
         private Mono.CSharp.CompilerContext _ctx;
         private static Evaluator _inst;
+        private List<string> _assemblyPaths = new List<string>();
+
         public static Evaluator Inst
         {
             get
@@ -29,6 +32,15 @@ namespace SuperShell.Core
                 return _inst;
             }
         }
+
+        public string[] LoadedAssemblyLocations
+        {
+            get
+            {
+                return _assemblyPaths.ToArray();
+            }
+        }
+
         private Evaluator(Mono.CSharp.CompilerContext ctx) : base(ctx)
         {
             ReferenceAssembly(GetType().Assembly);
@@ -74,6 +86,14 @@ namespace SuperShell.Core
 
         public static object TmpVar;
         int varCount;
+
+        public event EventHandler<Assembly> AssemblyReferenced;
+        public new void ReferenceAssembly(Assembly assembly)
+        {
+            base.ReferenceAssembly(assembly);
+            _assemblyPaths.Add(assembly.Location);
+            AssemblyReferenced?.Invoke(this, assembly);
+        }
         public string RefrenceObject(object obj)
         {
             TmpVar = obj;
@@ -82,7 +102,6 @@ namespace SuperShell.Core
             varCount++;
             return varName;
         }
-
         
     }
 }

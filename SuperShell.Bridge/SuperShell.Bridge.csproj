@@ -53,7 +53,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ui\ShellInputControl.cs" />
+    <Compile Include="Core\IShell.cs" />
+    <Compile Include="Plug\ICodeEditorProvider.cs" />
+    <Compile Include="Ui\IShellInputControl.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

@@ -25,7 +25,7 @@ namespace SuperShell.Output
                 }
                 return new Viewers.NativeObjectViewer() { UnderlyingObject = obj };
             }
-
+            
             return null;
         }
     }

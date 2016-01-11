@@ -21,8 +21,10 @@ namespace SuperShell.Ui
     {
         public Host()
         {
-            InitializeComponent();
+            Plug.PluginManager.Init(Core.Evaluator.Inst);
             Actions.AllActions.RefreshActions();
+            InitializeComponent();
+            
         }
     }
 }

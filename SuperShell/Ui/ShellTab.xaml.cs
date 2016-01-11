@@ -32,7 +32,6 @@ namespace SuperShell.Ui
             if (lastCard.IsEvaluated&&lastCard.HasOutput)
                 AddNewShellCard();
         }
-
         public ShellCard GetLastCard()
         {
             var lastCard = panel.Children[panel.Children.Count - 1] as ShellCard;
