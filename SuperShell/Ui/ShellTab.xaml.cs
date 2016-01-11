@@ -28,9 +28,15 @@ namespace SuperShell.Ui
 
         public void AddEmptyCard()
         {
-            var lastCard = panel.Children[panel.Children.Count - 1] as ShellCard;
-            if (lastCard.IsEvaluated)
+            var lastCard = GetLastCard();
+            if (lastCard.IsEvaluated&&lastCard.HasOutput)
                 AddNewShellCard();
+        }
+
+        public ShellCard GetLastCard()
+        {
+            var lastCard = panel.Children[panel.Children.Count - 1] as ShellCard;
+            return lastCard;
         }
 
         private void AddNewShellCard()

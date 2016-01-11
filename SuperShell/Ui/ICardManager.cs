@@ -9,5 +9,6 @@ namespace SuperShell.Ui
     internal interface ICardManager
     {
         void AddEmptyCard();
+        ShellCard GetLastCard();
     }
 }

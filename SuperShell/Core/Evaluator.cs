@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SuperShell.Core
 {
-    internal class Evaluator:Mono.CSharp.Evaluator
+    public class Evaluator:Mono.CSharp.Evaluator
     {
         public class CompilerResult
         {
@@ -29,7 +29,10 @@ namespace SuperShell.Core
                 return _inst;
             }
         }
-        private Evaluator(Mono.CSharp.CompilerContext ctx) : base(ctx) { }
+        private Evaluator(Mono.CSharp.CompilerContext ctx) : base(ctx)
+        {
+            ReferenceAssembly(GetType().Assembly);
+        }
         public new CompilerResult Evaluate(string code)
         {
             var errorWriter = new StringWriter();
@@ -68,5 +71,18 @@ namespace SuperShell.Core
             }
             return false;
         }
+
+        public static object TmpVar;
+        int varCount;
+        public string RefrenceObject(object obj)
+        {
+            TmpVar = obj;
+            var varName = "var" + varCount;
+            Evaluate($"var {varName}=({obj.GetType().GetStringRepresentation()})SuperShell.Core.Evaluator.TmpVar;");
+            varCount++;
+            return varName;
+        }
+
+        
     }
 }

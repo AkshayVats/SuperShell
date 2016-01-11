@@ -72,12 +72,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Actions\AllActions.cs" />
+    <Compile Include="Actions\GetInstance.cs" />
+    <Compile Include="Actions\IAction.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\Evaluator.cs" />
+    <Compile Include="Core\Extensions.cs" />
     <Compile Include="Output\OutputManager.cs" />
+    <Compile Include="Output\Viewers\IObjectViewer.cs" />
+    <Compile Include="Output\Viewers\NativeObjectViewer.xaml.cs">
+      <DependentUpon>NativeObjectViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ui\Avalon\ShellInputControl.cs" />
     <Compile Include="Ui\CrossButton.xaml.cs">
       <DependentUpon>CrossButton.xaml</DependentUpon>
@@ -89,7 +97,7 @@
     <Compile Include="Ui\OutputCard.xaml.cs">
       <DependentUpon>OutputCard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ui\OutputWithType.xaml.cs">
+    <Compile Include="Output\Viewers\OutputWithType.xaml.cs">
       <DependentUpon>OutputWithType.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ui\ShellCard.xaml.cs">
@@ -129,6 +137,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Output\Viewers\NativeObjectViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -145,7 +157,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Ui\OutputWithType.xaml">
+    <Page Include="Output\Viewers\OutputWithType.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

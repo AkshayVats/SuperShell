@@ -13,7 +13,7 @@
                     
 					GlassFrameThickness="-1"
 					ResizeBorderThickness="5"
-					CaptionHeight="20"/>
+					CaptionHeight="25"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Template">
@@ -25,12 +25,16 @@
                             <!-- This is the ContentPresenter that displays the window content. -->
 
                             <!-- This is the ContentPresenter that displays the window content. -->
-                            <Border Margin="0,30,10,10" Height="Auto" >
+                            <Border Margin="0,35,10,10" Height="Auto" >
                                 <ContentPresenter Content="{TemplateBinding Content}"/>
                             </Border>
                             <ui:CrossButton HorizontalAlignment="Right" Height="15" Margin="0,10,10,0" VerticalAlignment="Top" Width="15" Cursor="Hand"
 							shell:WindowChrome.IsHitTestVisibleInChrome="True"/>
-                            <TextBlock x:Name="label" Text="# Super Shell" Margin="10,10,0,0" VerticalAlignment="Top"  Foreground="Black" FontSize="12"/>
+                            <TextBlock x:Name="label" FontFamily="Cambria Math" Text="#SuperShell" Margin="10,10,0,0" VerticalAlignment="Top"  Foreground="#FF0969AC" FontSize="14">
+                                <TextBlock.Effect>
+                                    <DropShadowEffect Color="#FF606464" ShadowDepth="1" BlurRadius="0" Opacity="0.3"/>
+                                </TextBlock.Effect>
+                            </TextBlock>
                             <!--This is the transparent white rectangle that goes behind the window content.-->
 
                             <!-- Window Border Content -->
@@ -54,6 +58,13 @@
     </Style>
     <Style x:Key="NormalOutputStyle" TargetType="{x:Type UserControl}">
         <Setter Property="Background" Value="#FFFEFFF9"/>
+        <Setter Property="BorderBrush" Value="#FF9FA2A4"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="BorderThickness" Value="1,0,1,1"/>
+        <Setter Property="FontFamily" Value="Consolas"/>
+    </Style>
+    <Style x:Key="GrayOutputStyle" TargetType="{x:Type UserControl}">
+        <Setter Property="Background" Value="#FFE8E8E8"/>
         <Setter Property="BorderBrush" Value="#FF9FA2A4"/>
         <Setter Property="Foreground" Value="Black"/>
         <Setter Property="BorderThickness" Value="1,0,1,1"/>

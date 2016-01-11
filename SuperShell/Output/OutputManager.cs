@@ -21,8 +21,9 @@ namespace SuperShell.Output
             {
                 if (obj.GetType().IsPrimitive || obj is string)
                 {
-                    return new Ui.OutputWithType() { Text=obj.ToString(), OutputType=obj.GetType() };
+                    return new Viewers.OutputWithType() { UnderlyingObject = obj };
                 }
+                return new Viewers.NativeObjectViewer() { UnderlyingObject = obj };
             }
 
             return null;

@@ -22,6 +22,7 @@ namespace SuperShell.Ui
         public Host()
         {
             InitializeComponent();
+            Actions.AllActions.RefreshActions();
         }
     }
 }
