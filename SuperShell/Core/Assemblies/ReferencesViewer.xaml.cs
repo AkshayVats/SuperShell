@@ -10,19 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SuperShell.Ui
+namespace SuperShell.Core.Assemblies
 {
     /// <summary>
-    /// Interaction logic for Host.xaml
+    /// Interaction logic for ReferencesViewer.xaml
     /// </summary>
-    public partial class Host : Window
+    public partial class ReferencesViewer : UserControl
     {
-        public Host()
+        public ReferencesViewer()
         {
-            Plug.PluginManager.Init(Core.Evaluator.Inst);
-            Actions.AllActions.RefreshActions();
             InitializeComponent();
         }
     }

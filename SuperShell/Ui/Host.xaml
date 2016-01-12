@@ -9,16 +9,14 @@
         Background="#FFF7F7F7"
         WindowStartupLocation="CenterScreen" 
         xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.AeroLite"
-        Title="Super Shell" Height="500" Width="600" Style="{DynamicResource HostStyle}" Icon="/SuperShell;component/icon.ico">
+        Title="Super Shell" Height="700" Width="800" Style="{DynamicResource HostStyle}" Icon="/SuperShell;component/icon.ico">
     <Grid>
         <TabControl x:Name="tabControl" Margin="10,0,0,0" Background="#FFE6E6E6">
             <TabItem Header="TabItem">
                 <local:ShellTab/>
             </TabItem>
             <TabItem Header="TabItem">
-                <local:OutputCard Style="{DynamicResource ErrorStyle}" Height="60.54" VerticalAlignment="Top">
-                    <TextBox Style="{DynamicResource TB_no_border}" Text="Lolwa"></TextBox>
-                </local:OutputCard>
+                <local:OutputCard Style="{DynamicResource ErrorStyle}" Height="60.54" VerticalAlignment="Top"/>
             </TabItem>
             
         </TabControl>

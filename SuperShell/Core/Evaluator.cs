@@ -27,7 +27,7 @@ namespace SuperShell.Core
                 if (_inst == null)
                 {
                     var ctx = new Mono.CSharp.CompilerContext(new Mono.CSharp.CompilerSettings(), new Mono.CSharp.ConsoleReportPrinter());
-                    _inst = new Evaluator(ctx) { _ctx = ctx };
+                    _inst = new Evaluator(ctx);
                 }
                 return _inst;
             }
@@ -43,7 +43,10 @@ namespace SuperShell.Core
 
         private Evaluator(Mono.CSharp.CompilerContext ctx) : base(ctx)
         {
+            _ctx = ctx;
             ReferenceAssembly(GetType().Assembly);
+            ReferenceAssembly(typeof(System.Windows.Controls.Button).Assembly);
+            Evaluate("using SuperShell.Util");
         }
         public new CompilerResult Evaluate(string code)
         {

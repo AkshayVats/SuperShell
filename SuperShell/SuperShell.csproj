@@ -95,10 +95,18 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Core\Assemblies\AssemblyViewModel.cs" />
+    <Compile Include="Core\Assemblies\GAC.cs" />
+    <Compile Include="Core\Assemblies\ReferencesViewer.xaml.cs">
+      <DependentUpon>ReferencesViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Core\Evaluator.cs" />
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Output\OutputManager.cs" />
     <Compile Include="Output\Viewers\IObjectViewer.cs" />
+    <Compile Include="Output\Viewers\ListViewer.xaml.cs">
+      <DependentUpon>ListViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Output\Viewers\NativeObjectViewer.xaml.cs">
       <DependentUpon>NativeObjectViewer.xaml</DependentUpon>
     </Compile>
@@ -123,6 +131,7 @@
     <Compile Include="Ui\ShellTab.xaml.cs">
       <DependentUpon>ShellTab.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Util\Shell.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -153,6 +162,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Core\Assemblies\ReferencesViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Output\Viewers\ListViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Output\Viewers\NativeObjectViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -204,6 +221,7 @@
       <Name>SuperShell.Bridge</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

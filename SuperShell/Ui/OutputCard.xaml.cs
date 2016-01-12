@@ -20,6 +20,7 @@ namespace SuperShell.Ui
     /// </summary>
     public partial class OutputCard : UserControl
     {
+        object _underlyingObject;
         public OutputCard()
         {
             InitializeComponent();
@@ -29,18 +30,34 @@ namespace SuperShell.Ui
 
         internal void Render(object obj, OutputType typ)
         {
+            _underlyingObject = obj;
             var output = Output.OutputManager.GenerateOutput(obj);
             if (!(output is Output.Viewers.OutputWithType))
                 typ = OutputType.Gray;
-            Content = output;
+            ChooseViewers(obj.GetType());
+            SetOutput(output);
             Style = GetStyle(typ);
             if ((output as Control) != null)
                 (output as Control).Foreground = Foreground;
         }
+
+        private void ChooseViewers(Type type)
+        {
+            if (type.IsPrimitive) return;
+            cbViewers.ItemsSource =  Output.OutputManager.GetViewersFor(type);
+            if (cbViewers.Items.Count > 1) cbViewers.Visibility = Visibility.Visible;
+        }
+
+        private void SetOutput(FrameworkElement output)
+        {
+            panel.Children.Clear();
+            panel.Children.Add(output);
+        }
+
         internal void RenderMessage(string msg, OutputType typ)
         {
             var output = Output.OutputManager.GenerateMessage(msg);
-            Content = output;
+            SetOutput(output);
             Style = GetStyle(typ);
             if ((output as Control) != null)
                 (output as Control).Foreground = Foreground;
@@ -55,7 +72,7 @@ namespace SuperShell.Ui
                     new Run(" : " + value.ToString()) { Foreground = new SolidColorBrush(Colors.Black) }
                     }
             };
-            Content = output;
+            SetOutput(output);
             Style = GetStyle(typ);
             
         }
@@ -69,6 +86,13 @@ namespace SuperShell.Ui
                 case OutputType.Gray:return FindResource("GrayOutputStyle") as Style;
             }
             return null;
+        }
+
+        private void cbViewers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            dynamic output = Activator.CreateInstance(cbViewers.SelectedItem as Type);
+            output.UnderlyingObject = ((dynamic)_underlyingObject);
+            SetOutput(output);
         }
     }
 }

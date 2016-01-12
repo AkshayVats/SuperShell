@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SuperShell.Ui"
              mc:Ignorable="d" 
-             Padding="5"
              d:DesignHeight="101.013" d:DesignWidth="300">
-    
+    <StackPanel>
+        <ComboBox x:Name="cbViewers" Height="13.447" VerticalAlignment="Top" Style="{DynamicResource CB_Transparent}" Margin="0,1,1,0" HorizontalAlignment="Right" Width="136.586" Visibility="Collapsed" SelectionChanged="cbViewers_SelectionChanged"/>
+        <Grid x:Name="panel" Margin="5"/>
+    </StackPanel>
 </UserControl>
