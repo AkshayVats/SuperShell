@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:SuperShell.Output.Viewers"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <ListView x:Name="listView" MaxHeight="500">
+    <ListView x:Name="listView" MaxHeight="500" GridViewColumnHeader.Click="header_click">
         <ListView.View>
             <GridView/>
         </ListView.View>

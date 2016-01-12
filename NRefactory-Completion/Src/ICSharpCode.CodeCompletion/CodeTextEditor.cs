@@ -48,10 +48,12 @@ namespace ICSharpCode.CodeCompletion
                 }
                 else if(e.Key == Key.Up)
                 {
+                    Clear();
                     AppendText(_lastCommands.Previous());
                 }
                 else if(e.Key == Key.Down)
                 {
+                    Clear();
                     AppendText(_lastCommands.Next());
                 }
                 else

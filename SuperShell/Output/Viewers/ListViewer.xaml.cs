@@ -22,6 +22,7 @@ namespace SuperShell.Output.Viewers
     /// </summary>
     public partial class ListViewer : UserControl,IObjectViewer<IEnumerable>
     {
+        private string _selectedMember;
         public ListViewer()
         {
             InitializeComponent();
@@ -47,12 +48,6 @@ namespace SuperShell.Output.Viewers
 
         private void SetObject(IEnumerable obj)
         {
-            var cm = new ContextMenu();
-            var mi = new MenuItem() { Header = "ASD" };
-            mi.Click += (o, r) => { MessageBox.Show(listView.SelectedItem.ToString()); };
-            cm.Items.Add(mi);
-
-
             _underlyingObject = obj;
             //Try to figure out enumerable generic parameter
             var typ = obj.GetType().GetElementType(); //easy way
@@ -96,6 +91,27 @@ namespace SuperShell.Output.Viewers
             }
             BindingOperations.EnableCollectionSynchronization(obj, new object());
             listView.ItemsSource = obj;
+
+            ContextMenu = Actions.AllActions.GenerateMenu(typ, (action)=> {
+                action.Invoke(listView.SelectedItem, this);
+            });
+
+        }
+        
+        private void header_click(object sender, RoutedEventArgs e)
+        {
+            var column = (e.OriginalSource as GridViewColumnHeader)?.Column;
+            if (column != null)
+            {
+                var member = (column.DisplayMemberBinding as Binding).Path.Path;
+                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+                System.ComponentModel.ListSortDirection dir = System.ComponentModel.ListSortDirection.Ascending;
+                if (member == _selectedMember)
+                    dir = view.SortDescriptions.First().Direction == System.ComponentModel.ListSortDirection.Ascending ? System.ComponentModel.ListSortDirection.Descending : System.ComponentModel.ListSortDirection.Ascending;
+                view.SortDescriptions.Clear();
+                view.SortDescriptions.Add(new System.ComponentModel.SortDescription(member, dir));
+                _selectedMember = member;
+            }
         }
     }
 }
