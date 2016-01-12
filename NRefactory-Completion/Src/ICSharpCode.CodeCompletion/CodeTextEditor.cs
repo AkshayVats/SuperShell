@@ -38,10 +38,26 @@ namespace ICSharpCode.CodeCompletion
 
         private void CodeTextEditor_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (completionWindow==null&& e.Key == Key.Enter && Keyboard.Modifiers == ModifierKeys.None)
+            if (completionWindow == null)
             {
-                CommandEntered?.Invoke(this, Text);
-                e.Handled = true;
+                if (e.Key == Key.Enter && Keyboard.Modifiers == ModifierKeys.None)
+                {
+                    CommandEntered?.Invoke(this, Text);
+                    e.Handled = true;
+                    _lastCommands.Add(Text);
+                }
+                else if(e.Key == Key.Up)
+                {
+                    AppendText(_lastCommands.Previous());
+                }
+                else if(e.Key == Key.Down)
+                {
+                    AppendText(_lastCommands.Next());
+                }
+                else
+                {
+                    _lastCommands.Reset();
+                }
             }
         }
 
@@ -219,10 +235,12 @@ namespace ICSharpCode.CodeCompletion
 
 
 
+
         #endregion
 
         #region IShellInputControl
-        
+
+        private ICommandHistoryManager _lastCommands;
         public event EventHandler<string> CommandEntered;
         private bool? _evaluating;
         public bool? Evaluating
@@ -253,6 +271,10 @@ namespace ICSharpCode.CodeCompletion
             {
                 return this;
             }
+        }
+        public void SetCommandHistoryManager(ICommandHistoryManager manager)
+        {
+            _lastCommands = manager;
         }
 
         #endregion

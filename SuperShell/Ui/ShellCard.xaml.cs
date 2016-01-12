@@ -36,6 +36,7 @@ namespace SuperShell.Ui
         private void AddEditor()
         {
             input = Plug.PluginManager.CodeEditorProvider.GenerateShellInput();
+            input.SetCommandHistoryManager(LastCommandsManager.Inst);
             var editorUi = input.Control;
             editorUi.Padding = new Thickness(5);
             input.CommandEntered += ShellInputControl_CommandEntered;

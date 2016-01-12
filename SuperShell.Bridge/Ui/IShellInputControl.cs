@@ -15,5 +15,6 @@ namespace SuperShell.Bridge.Ui
         Control Control { get; }
         int CaretOffset { get; set; }
         string Text { get; set; }
+        void SetCommandHistoryManager(Core.ICommandHistoryManager manager);
     }
 }

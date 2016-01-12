@@ -47,6 +47,12 @@ namespace SuperShell.Output.Viewers
 
         private void SetObject(IEnumerable obj)
         {
+            var cm = new ContextMenu();
+            var mi = new MenuItem() { Header = "ASD" };
+            mi.Click += (o, r) => { MessageBox.Show(listView.SelectedItem.ToString()); };
+            cm.Items.Add(mi);
+
+
             _underlyingObject = obj;
             //Try to figure out enumerable generic parameter
             var typ = obj.GetType().GetElementType(); //easy way

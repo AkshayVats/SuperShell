@@ -53,6 +53,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\ICommandHistoryManager.cs" />
     <Compile Include="Core\IShell.cs" />
     <Compile Include="Plug\ICodeEditorProvider.cs" />
     <Compile Include="Ui\IShellInputControl.cs" />
