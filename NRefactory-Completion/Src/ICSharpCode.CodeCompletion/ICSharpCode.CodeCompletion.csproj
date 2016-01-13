@@ -37,30 +37,44 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ICSharpCode.NRefactory, Version=5.0.0.0, Culture=neutral, PublicKeyToken=d4bfe873e7598c49, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\ICSharpCode.NRefactory.dll</HintPath>
+    <Reference Include="ICSharpCode.AvalonEdit, Version=5.0.1.0, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\AvalonEdit.5.0.2\lib\Net40\ICSharpCode.AvalonEdit.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="ICSharpCode.NRefactory.Cecil">
-      <HintPath>..\..\Lib\ICSharpCode.NRefactory.Cecil.dll</HintPath>
+    <Reference Include="ICSharpCode.NRefactory, Version=5.0.0.0, Culture=neutral, PublicKeyToken=d4bfe873e7598c49, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\ICSharpCode.NRefactory.5.5.1\lib\Net40\ICSharpCode.NRefactory.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.NRefactory.Cecil, Version=5.0.0.0, Culture=neutral, PublicKeyToken=d4bfe873e7598c49, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\ICSharpCode.NRefactory.5.5.1\lib\Net40\ICSharpCode.NRefactory.Cecil.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="ICSharpCode.NRefactory.CSharp, Version=5.0.0.0, Culture=neutral, PublicKeyToken=d4bfe873e7598c49, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\ICSharpCode.NRefactory.CSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.NRefactory.IKVM">
-      <HintPath>..\..\Lib\ICSharpCode.NRefactory.IKVM.dll</HintPath>
+      <HintPath>..\..\..\packages\ICSharpCode.NRefactory.5.5.1\lib\Net40\ICSharpCode.NRefactory.CSharp.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="ICSharpCode.NRefactory.Xml, Version=5.0.0.0, Culture=neutral, PublicKeyToken=d4bfe873e7598c49, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\ICSharpCode.NRefactory.Xml.dll</HintPath>
+      <HintPath>..\..\..\packages\ICSharpCode.NRefactory.5.5.1\lib\Net40\ICSharpCode.NRefactory.Xml.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="IKVM.Reflection">
       <HintPath>..\..\Lib\IKVM.Reflection.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil, Version=0.9.5.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\Mono.Cecil.dll</HintPath>
+      <HintPath>..\..\..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb, Version=0.9.5.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb, Version=0.9.5.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks, Version=0.9.5.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -90,6 +104,7 @@
     <Compile Include="DataItems\ImportCompletionData.cs" />
     <Compile Include="DataItems\OverrideCompletionData.cs" />
     <Compile Include="DataItems\VariableCompletionData.cs" />
+    <Compile Include="Images\CompletionImage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SegmentTrackingOutputFormatter.cs" />
   </ItemGroup>
@@ -98,10 +113,84 @@
       <Project>{55393f8d-3d94-4a51-b511-9e4896029ffe}</Project>
       <Name>SuperShell.Bridge</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ICSharpCode.AvalonEdit\ICSharpCode.AvalonEdit.csproj">
-      <Project>{6c55b776-26d4-4db3-a6ab-87e783b2f3d1}</Project>
-      <Name>ICSharpCode.AvalonEdit</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Class.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Constructor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Delegate.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Enum.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\EnumValue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Event.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ExtensionMethod.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Field.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\FieldReadOnly.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Indexer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Interface.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Literal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Method.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\NameSpace.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Operator.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\OverlayInternal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\OverlayPrivate.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\OverlayProtected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\OverlayProtectedInternal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\OverlayStatic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PInvokeMethod.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Property.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\StaticClass.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Struct.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\VirtualMethod.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

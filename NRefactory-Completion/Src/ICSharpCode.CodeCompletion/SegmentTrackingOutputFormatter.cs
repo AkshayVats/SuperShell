@@ -23,7 +23,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using ICSharpCode.AvalonEdit.Document;
-using ICSharpCode.NRefactory.Editor;
 using ICSharpCode.NRefactory.CSharp;
 
 namespace ICSharpCode.CodeCompletion

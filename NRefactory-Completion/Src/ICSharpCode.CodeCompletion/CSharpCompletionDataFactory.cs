@@ -119,7 +119,8 @@ namespace ICSharpCode.CodeCompletion
 
         ICompletionData ICompletionDataFactory.CreateNewOverrideCompletionData(int declarationBegin, IUnresolvedTypeDefinition type, IMember m)
         {
-            return new OverrideCompletionData(declarationBegin, m, contextAtCaret);
+            return null;
+            //return new OverrideCompletionData(declarationBegin, m, contextAtCaret);
         }
 
         ICompletionData ICompletionDataFactory.CreateNewPartialCompletionData(int declarationBegin, IUnresolvedTypeDefinition type, IUnresolvedMember m)
