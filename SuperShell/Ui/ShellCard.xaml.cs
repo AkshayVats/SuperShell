@@ -41,6 +41,19 @@ namespace SuperShell.Ui
             editorUi.Padding = new Thickness(5);
             input.CommandEntered += ShellInputControl_CommandEntered;
             grid.Children.Add(editorUi);
+
+            editorUi.PreviewKeyUp += EditorUi_PreviewKeyUp;
+        }
+
+        private void EditorUi_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.V && Keyboard.Modifiers == ModifierKeys.Control) //Ctrl+V...file drop
+            {
+                if (Clipboard.ContainsFileDropList())
+                    AddOutputCard(Clipboard.GetFileDropList().Cast<string>().Select(i=>new Uri(i)).ToList());
+                else if (Clipboard.ContainsImage())
+                    AddOutputCard(Clipboard.GetImage());
+            }
         }
 
         private void ShellInputControl_CommandEntered(object sender, string e)
@@ -53,7 +66,7 @@ namespace SuperShell.Ui
             input.Evaluating = true;
             IsEvaluated = false;
             input.Control.Style = FindResource("shell_evaluating") as Style;
-            ClearCardOutput();
+            //ClearCardOutput();
             var result = Evaluator.Inst.Evaluate(e);
             if (result.Errors?.Count() > 0)
             {
@@ -67,22 +80,27 @@ namespace SuperShell.Ui
             {
                 if (result.Result != null)
                 {
-                    var output = new OutputCard();
-                    output.Render(result.Result, OutputCard.OutputType.Normal);
-                    stackPanel.Children.Add(output);
+                    AddOutputCard(result.Result);
                 }
 
                 IsEvaluated = true;
-                input.Control.Style = FindResource("shell_inactive") as Style;
-                HasOutput = true;
                 input.Evaluating = false;
                 _cardManager.AddEmptyCard();
             }
         }
 
+        private void AddOutputCard(object result)
+        {
+            var output = new OutputCard();
+            output.Render(result, OutputCard.OutputType.Normal);
+            stackPanel.Children.Add(output);
+            input.Control.Style = FindResource("shell_inactive") as Style;
+            HasOutput = true;
+        }
+
         private void ClearCardOutput()
         {
-            HasOutput = true;
+            HasOutput = false;
             while (stackPanel.Children.Count > 1)
                 stackPanel.Children.RemoveAt(1);
         }

@@ -44,10 +44,6 @@
     <Reference Include="ICSharpCode.NRefactory.Cecil">
       <HintPath>..\..\Lib\ICSharpCode.NRefactory.Cecil.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.NRefactory.CSharp, Version=5.0.0.0, Culture=neutral, PublicKeyToken=d4bfe873e7598c49, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\ICSharpCode.NRefactory.CSharp.dll</HintPath>
-    </Reference>
     <Reference Include="ICSharpCode.NRefactory.IKVM">
       <HintPath>..\..\Lib\ICSharpCode.NRefactory.IKVM.dll</HintPath>
     </Reference>

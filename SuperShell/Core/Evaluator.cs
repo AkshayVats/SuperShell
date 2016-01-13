@@ -44,8 +44,9 @@ namespace SuperShell.Core
         private Evaluator(Mono.CSharp.CompilerContext ctx) : base(ctx)
         {
             _ctx = ctx;
-            ReferenceAssembly(GetType().Assembly);
-            ReferenceAssembly(typeof(System.Windows.Controls.Button).Assembly);
+            ReferenceAssembly(GetType().Assembly);                                          //Current (Shell)
+            ReferenceAssembly(typeof(System.Windows.Controls.Button).Assembly);             //PresentationFramework
+            ReferenceAssembly(typeof(System.Windows.Media.Imaging.BitmapSource).Assembly);  //PresentationCore
             Evaluate("using SuperShell.Util");
         }
         public new CompilerResult Evaluate(string code)
@@ -105,6 +106,10 @@ namespace SuperShell.Core
             varCount++;
             return varName;
         }
-        
+        public new string GetVars()
+        {
+            var vars = base.GetVars().Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+            return string.Join("\n", vars.Select(i => i.Split('=')[0]+";"));
+        }
     }
 }

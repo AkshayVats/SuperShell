@@ -110,7 +110,7 @@ namespace ICSharpCode.CodeCompletion
             if (Shell != null)
             {
                 usings = Shell.GetUsing();
-                variables = Shell.GetVars().Replace("\r\n", ";");
+                variables = Shell.GetVars();
             }
             return GetCompletions(document, offset, controlSpace, usings, variables);
         }

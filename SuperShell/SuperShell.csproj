@@ -88,7 +88,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Actions\AllActions.cs" />
+    <Compile Include="Actions\ActionManager.cs" />
     <Compile Include="Actions\GetInstance.cs" />
     <Compile Include="Actions\IAction.cs" />
     <Compile Include="App.xaml.cs">
@@ -105,6 +105,7 @@
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\LastCommandsManager.cs" />
     <Compile Include="Output\OutputManager.cs" />
+    <Compile Include="Output\Viewers\ImageViewer.cs" />
     <Compile Include="Output\Viewers\IObjectViewer.cs" />
     <Compile Include="Output\Viewers\ListViewer.xaml.cs">
       <DependentUpon>ListViewer.xaml</DependentUpon>

@@ -33,7 +33,8 @@ namespace SuperShell.Output
         static Dictionary<Type, List<Type>> ObjectViews = new Dictionary<Type, List<Type>>()
         {
             { typeof(object), new List<Type>() {typeof(Viewers.OutputWithType), typeof(Viewers.NativeObjectViewer) } },
-            {typeof(IEnumerable), new List<Type>() {typeof(Viewers.ListViewer) } }
+            {typeof(IEnumerable), new List<Type>() {typeof(Viewers.ListViewer) } },
+            {typeof(ImageSource), new List<Type>() {typeof(Viewers.ImageViewer) } }
         };
         public static IEnumerable<Type> GetViewersFor(Type typ)
         {

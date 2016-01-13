@@ -42,6 +42,7 @@ namespace SuperShell.Output.Viewers
                 _outputType = value;
                 txtType.Inlines.Clear();
                 txtType.Inlines.Add(new Italic(new Run(_outputType.GetStringRepresentation() )) );
+                txtType.ToolTip = value;
             }
         }
 
