@@ -22,7 +22,7 @@ namespace SuperShell.Ui
         public Host()
         {
             Plug.PluginManager.Init(Core.Evaluator.Inst);
-            Actions.AllActions.RefreshActions();
+            Actions.ActionManager.RefreshActions();
             InitializeComponent();
         }
     }

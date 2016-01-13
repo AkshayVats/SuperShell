@@ -26,23 +26,15 @@ namespace SuperShell.Actions
             }
         }
 
-        public Type SupportedType
+        public bool CanInvoke(object[] obj)
         {
-            get
-            {
-                return typeof(object);
-            }
+            return obj.Length==1;
         }
 
-        public void Invoke(object obj, IObjectViewer viewer)
+        public void Invoke(object[] obj, IObjectViewer viewer)
         {
-            object z = viewer;
-            while(!(z is Ui.ICardManager))
-            {
-                z = (z as FrameworkElement).Parent;
-                if (z == null) return;
-            }
-            (z as Ui.ICardManager).GetLastCard().AppendInput(Core.Evaluator.Inst.RefrenceObject(obj));
+            var card = ActionManager.FindAncestor<Ui.ICardManager>(viewer);
+            card?.GetLastCard().AppendInput(Core.Evaluator.Inst.RefrenceObject(obj.First()));
         }
     }
 }

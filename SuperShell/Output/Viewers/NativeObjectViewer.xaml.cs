@@ -46,11 +46,17 @@ namespace SuperShell.Output.Viewers
         public NativeObjectViewer()
         {
             InitializeComponent();
+            ContextMenu = new ContextMenu();
+            ContextMenuOpening += NativeObjectViewer_ContextMenuOpening;
+        }
+
+        private void NativeObjectViewer_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            Actions.ActionManager.PopulateMenu(ContextMenu, this, new object[]{ UnderlyingObject});
         }
 
         public void SetObject(object obj, string name)
         {
-            Actions.AllActions.AttachMenu(obj, this);
             txtTitle.UnderlyingObject = obj;
             txtTitle.Text = name != null ? (name + $" ({obj})") : obj.ToString();
             this._obj = obj;

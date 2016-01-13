@@ -92,7 +92,7 @@ namespace SuperShell.Ui
         {
             dynamic output = Activator.CreateInstance(cbViewers.SelectedItem as Type);
             output.UnderlyingObject = ((dynamic)_underlyingObject);
-            SetOutput(output);
+            SetOutput(output.GetUi());
         }
     }
 }

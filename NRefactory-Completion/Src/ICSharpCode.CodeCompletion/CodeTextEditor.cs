@@ -186,7 +186,6 @@ namespace ICSharpCode.CodeCompletion
                 }
             }//end if
 
-
             //update the insight window
             if (!string.IsNullOrEmpty(enteredText) && insightWindow != null)
             {
@@ -232,7 +231,7 @@ namespace ICSharpCode.CodeCompletion
         protected virtual IDocument GetCompletionDocument(out int offset)
         {
             offset = CaretOffset;
-            return new ReadOnlyDocument(new StringTextSource(Text), FileName);
+            return new ReadOnlyDocument(new StringTextSource(Text/*.Substring(0, offset)*/), FileName);
         }
 
 

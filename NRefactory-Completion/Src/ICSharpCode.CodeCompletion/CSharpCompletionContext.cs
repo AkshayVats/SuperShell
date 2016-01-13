@@ -56,7 +56,7 @@ namespace ICSharpCode.CodeCompletion
             OriginalOffset = offset;
             OriginalUsings = usings;
             OriginalVariables = variables;
-
+            
             //if the document is a c# script we have to soround the document with some code.
             Document = PrepareCompletionDocument(document, ref offset, usings, variables);
             Offset = offset;

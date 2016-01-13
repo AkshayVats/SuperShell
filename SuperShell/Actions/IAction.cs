@@ -10,7 +10,7 @@ namespace SuperShell.Actions
     {
         string Title { get; }
         string Category { get; }
-        Type SupportedType { get; }
-        void Invoke(object obj, Output.Viewers.IObjectViewer viewer);
+        bool CanInvoke(object[] obj);
+        void Invoke(object[] obj, Output.Viewers.IObjectViewer viewer);
     }
 }

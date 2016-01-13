@@ -26,7 +26,16 @@ namespace SuperShell.Output.Viewers
         public ListViewer()
         {
             InitializeComponent();
+            ContextMenu = new ContextMenu();
+            ContextMenuOpening += ListViewer_ContextMenuOpening;
         }
+
+        private void ListViewer_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            Actions.ActionManager.PopulateMenu(ContextMenu, this, listView.SelectedItems.Cast<object>().ToArray());
+            if (ContextMenu.Items.Count == 0) e.Handled = true;
+        }
+
         IEnumerable _underlyingObject;
         public IEnumerable UnderlyingObject
         {
@@ -91,11 +100,7 @@ namespace SuperShell.Output.Viewers
             }
             BindingOperations.EnableCollectionSynchronization(obj, new object());
             listView.ItemsSource = obj;
-
-            ContextMenu = Actions.AllActions.GenerateMenu(typ, (action)=> {
-                action.Invoke(listView.SelectedItem, this);
-            });
-
+            
         }
         
         private void header_click(object sender, RoutedEventArgs e)

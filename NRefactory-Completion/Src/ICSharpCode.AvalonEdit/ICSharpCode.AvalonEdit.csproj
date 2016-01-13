@@ -63,9 +63,6 @@
     <Reference Include="ICSharpCode.NRefactory">
       <HintPath>..\..\Lib\ICSharpCode.NRefactory.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.NRefactory.CSharp">
-      <HintPath>..\..\Lib\ICSharpCode.NRefactory.CSharp.dll</HintPath>
-    </Reference>
     <Reference Include="ICSharpCode.NRefactory.Xml">
       <HintPath>..\..\Lib\ICSharpCode.NRefactory.Xml.dll</HintPath>
     </Reference>
