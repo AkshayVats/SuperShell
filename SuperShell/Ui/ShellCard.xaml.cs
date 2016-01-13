@@ -89,7 +89,7 @@ namespace SuperShell.Ui
             }
         }
 
-        private void AddOutputCard(object result)
+        public void AddOutputCard(object result)
         {
             var output = new OutputCard();
             output.Render(result, OutputCard.OutputType.Normal);

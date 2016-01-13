@@ -24,7 +24,8 @@ namespace SuperShell.Output
                 {
                     return new Viewers.OutputWithType() { UnderlyingObject = obj };
                 }
-                return new Viewers.NativeObjectViewer() { UnderlyingObject = obj };
+                else if (obj is FrameworkElement) return new Viewers.FrameworkElementViewer() {UnderlyingObject= (obj as FrameworkElement) }.GetUi();
+                return new Viewers.NativeObjectViewer() { UnderlyingObject = obj }.GetUi();
             }
             
             return null;

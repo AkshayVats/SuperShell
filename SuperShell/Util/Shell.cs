@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace SuperShell.Util
 {
@@ -16,5 +17,10 @@ namespace SuperShell.Util
                 .Where(i=>i.Path!=null)
                 .ToList();
         }
+        public static BitmapImage CreateBitmap(Uri path)
+        {
+            return new BitmapImage(path);
+        }
+        
     }
 }

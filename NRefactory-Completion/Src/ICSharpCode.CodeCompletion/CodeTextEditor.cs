@@ -46,19 +46,22 @@ namespace ICSharpCode.CodeCompletion
                     e.Handled = true;
                     _lastCommands.Add(Text);
                 }
-                else if(e.Key == Key.Up)
+                if (insightWindow == null)
                 {
-                    Clear();
-                    AppendText(_lastCommands.Previous());
-                }
-                else if(e.Key == Key.Down)
-                {
-                    Clear();
-                    AppendText(_lastCommands.Next());
-                }
-                else
-                {
-                    _lastCommands.Reset();
+                    if (e.Key == Key.Up)
+                    {
+                        Clear();
+                        AppendText(_lastCommands.Previous());
+                    }
+                    else if (e.Key == Key.Down)
+                    {
+                        Clear();
+                        AppendText(_lastCommands.Next());
+                    }
+                    else
+                    {
+                        _lastCommands.Reset();
+                    }
                 }
             }
         }

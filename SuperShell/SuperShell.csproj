@@ -71,6 +71,7 @@
     <Compile Include="Actions\ActionManager.cs" />
     <Compile Include="Actions\GetInstance.cs" />
     <Compile Include="Actions\IAction.cs" />
+    <Compile Include="Actions\ParseAsImage.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -85,6 +86,7 @@
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\LastCommandsManager.cs" />
     <Compile Include="Output\OutputManager.cs" />
+    <Compile Include="Output\Viewers\FrameworkElementViewer.cs" />
     <Compile Include="Output\Viewers\ImageViewer.cs" />
     <Compile Include="Output\Viewers\IObjectViewer.cs" />
     <Compile Include="Output\Viewers\ListViewer.xaml.cs">

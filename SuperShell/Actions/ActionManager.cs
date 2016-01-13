@@ -16,6 +16,7 @@ namespace SuperShell.Actions
         {
             Actions = new List<IAction>();
             Actions.Add(new GetInstance());
+            Actions.Add(new ParseAsImage());
         }
         
 
@@ -36,7 +37,7 @@ namespace SuperShell.Actions
 
         public static T FindAncestor<T>(IObjectViewer viewer)
         {
-            object z = viewer;
+            object z = viewer.GetUi();
             while (!(z is Ui.ICardManager))
             {
                 z = (z as FrameworkElement).Parent;

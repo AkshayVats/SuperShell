@@ -47,7 +47,7 @@ namespace SuperShell.Core
             ReferenceAssembly(GetType().Assembly);                                          //Current (Shell)
             ReferenceAssembly(typeof(System.Windows.Controls.Button).Assembly);             //PresentationFramework
             ReferenceAssembly(typeof(System.Windows.Media.Imaging.BitmapSource).Assembly);  //PresentationCore
-            Evaluate("using SuperShell.Util");
+            Evaluate("using SuperShell.Util;using System;using System.Net;using System.Collections.Generic;");
         }
         public new CompilerResult Evaluate(string code)
         {

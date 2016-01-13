@@ -67,6 +67,13 @@ namespace SuperShell.Output.Viewers
                 else typ = (from intType in obj.GetType().GetInterfaces() where intType.IsGenericType && intType.GetGenericTypeDefinition() == typeof(IEnumerable<>) select intType.GetGenericArguments()[0]).FirstOrDefault();
             }
             //typ may be null...fuck it get exception
+            if (typ == null)
+            {
+                var zz = obj.Cast<object>().FirstOrDefault();
+                if (zz == null)
+                    return;
+                typ = zz.GetType();
+            }
 
             var grid = listView.View as GridView;
             foreach (var t in typ.GetProperties())

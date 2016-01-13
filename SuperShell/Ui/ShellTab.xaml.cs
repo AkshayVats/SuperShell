@@ -29,7 +29,7 @@ namespace SuperShell.Ui
         public void AddEmptyCard()
         {
             var lastCard = GetLastCard();
-            if (lastCard.IsEvaluated&&lastCard.HasOutput)
+            if (lastCard.IsEvaluated||lastCard.HasOutput)
                 AddNewShellCard();
         }
         public ShellCard GetLastCard()
