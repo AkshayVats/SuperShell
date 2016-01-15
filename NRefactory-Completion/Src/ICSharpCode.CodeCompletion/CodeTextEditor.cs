@@ -103,6 +103,7 @@ namespace ICSharpCode.CodeCompletion
         #region Code Completion
         private void OnTextEntered(object sender, TextCompositionEventArgs textCompositionEventArgs)
         {
+            
             ShowCompletion(textCompositionEventArgs.Text, false);
         }
 
@@ -246,28 +247,9 @@ namespace ICSharpCode.CodeCompletion
 
         private ICommandHistoryManager _lastCommands;
         public event EventHandler<string> CommandEntered;
-        private bool? _evaluating;
-        public bool? Evaluating
-        {
-            get
-            {
-                return _evaluating;
-            }
 
-            set
-            {
-                IsReadOnly = false;
-                _evaluating = value;
-                if (_evaluating == null)
-                    ;// Style = FindResource("shell_active") as Style;
-                else if (_evaluating == true)
-                {
-                    IsReadOnly = true;
-                    //Style = FindResource("shell_evaluating") as Style;
-                }
-                else;// Style = FindResource("shell_inactive") as Style;
-            }
-        }
+        private bool? _evaluating;
+        
 
         public Control Control
         {
@@ -279,6 +261,11 @@ namespace ICSharpCode.CodeCompletion
         public void SetCommandHistoryManager(ICommandHistoryManager manager)
         {
             _lastCommands = manager;
+        }
+
+        public void SetReadOnly(bool readOnly)
+        {
+            IsReadOnly = readOnly;
         }
 
         #endregion

@@ -21,6 +21,9 @@ namespace SuperShell.Util
         {
             return new BitmapImage(path);
         }
-        
+        public static void LL()
+        {
+            int t = 0;
+        }
     }
 }

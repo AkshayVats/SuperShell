@@ -44,10 +44,6 @@ namespace SuperShell.Core
         private Evaluator(Mono.CSharp.CompilerContext ctx) : base(ctx)
         {
             _ctx = ctx;
-            ReferenceAssembly(GetType().Assembly);                                          //Current (Shell)
-            ReferenceAssembly(typeof(System.Windows.Controls.Button).Assembly);             //PresentationFramework
-            ReferenceAssembly(typeof(System.Windows.Media.Imaging.BitmapSource).Assembly);  //PresentationCore
-            Evaluate("using SuperShell.Util;using System;using System.Net;using System.Collections.Generic;");
         }
         public new CompilerResult Evaluate(string code)
         {
@@ -57,9 +53,11 @@ namespace SuperShell.Core
             bool resultSet;
             try
             {
+                //Console.WriteLine($"Evaluating '{code}'");
                 Evaluate(code, out result, out resultSet);
                 var messages = errorWriter.ToString()
                     .Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                Console.WriteLine(errorWriter.ToString());
                 return new CompilerResult
                 {
                     Result = result,
@@ -96,6 +94,18 @@ namespace SuperShell.Core
         {
             base.ReferenceAssembly(assembly);
             _assemblyPaths.Add(assembly.Location);
+            AssemblyReferenced?.Invoke(this, assembly);
+        }
+        public new void LoadAssembly(string path)
+        {
+            if (_assemblyPaths.Contains(path)) return;
+            var assembly = AppDomain.CurrentDomain.GetAssemblies().Where(i=>i.IsDynamic==false).FirstOrDefault(i => i.Location == path);
+            if(assembly == null)
+            {
+                Console.WriteLine("Loaded a new assembly, "+path);
+                assembly = Assembly.LoadFile(path);
+            }
+            _assemblyPaths.Add(path);
             AssemblyReferenced?.Invoke(this, assembly);
         }
         public string RefrenceObject(object obj)

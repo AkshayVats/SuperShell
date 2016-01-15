@@ -10,8 +10,9 @@ namespace SuperShell.Bridge.Ui
 {
     public interface IShellInputControl
     {
+        event EventHandler TextChanged;
         event EventHandler<string> CommandEntered;
-        bool? Evaluating { get; set; }
+        void SetReadOnly(bool readOnly);
         Control Control { get; }
         int CaretOffset { get; set; }
         string Text { get; set; }

@@ -46,6 +46,10 @@
       <HintPath>..\packages\Mono.CSharp.4.0.0.143\lib\4.5\Mono.CSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="presentationframework.aerolite" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -81,10 +85,13 @@
     <Compile Include="Core\Assemblies\ReferencesViewer.xaml.cs">
       <DependentUpon>ReferencesViewer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Core\CommandHistoryManager.cs" />
+    <Compile Include="Core\Workspace\CommandHistoryManager.cs" />
+    <Compile Include="Core\Workspace\ConsoleWriter.cs" />
     <Compile Include="Core\Evaluator.cs" />
     <Compile Include="Core\Extensions.cs" />
-    <Compile Include="Core\LastCommandsManager.cs" />
+    <Compile Include="Core\Workspace\LastCommandsManager.cs" />
+    <Compile Include="Core\Workspace\Workspace.cs" />
+    <Compile Include="Core\Workspace\WorkspaceModel.cs" />
     <Compile Include="Output\OutputManager.cs" />
     <Compile Include="Output\Viewers\FrameworkElementViewer.cs" />
     <Compile Include="Output\Viewers\ImageViewer.cs" />
@@ -96,25 +103,35 @@
       <DependentUpon>NativeObjectViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plug\PluginManager.cs" />
-    <Compile Include="Ui\CrossButton.xaml.cs">
+    <Compile Include="Ui\Main\CrossButton.xaml.cs">
       <DependentUpon>CrossButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ui\Host.xaml.cs">
+    <Compile Include="Ui\Main\Host.xaml.cs">
       <DependentUpon>Host.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ui\ICardManager.cs" />
-    <Compile Include="Ui\OutputCard.xaml.cs">
+    <Compile Include="Ui\Interactive\ICardManager.cs" />
+    <Compile Include="Ui\Interactive\OutputCard.xaml.cs">
       <DependentUpon>OutputCard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Output\Viewers\OutputWithType.xaml.cs">
       <DependentUpon>OutputWithType.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ui\ShellCard.xaml.cs">
+    <Compile Include="Ui\Interactive\ShellCard.xaml.cs">
       <DependentUpon>ShellCard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ui\ShellSelectableText.cs" />
-    <Compile Include="Ui\ShellTab.xaml.cs">
+    <Compile Include="Ui\Interactive\ShellSelectableText.cs" />
+    <Compile Include="Ui\Interactive\ShellTab.xaml.cs">
       <DependentUpon>ShellTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ui\Main\ImageTextViewModel.cs" />
+    <Compile Include="Ui\Main\NewTabControl.xaml.cs">
+      <DependentUpon>NewTabControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ui\Main\WorkspaceTab.xaml.cs">
+      <DependentUpon>WorkspaceTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ui\OutputWindow.xaml.cs">
+      <DependentUpon>OutputWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Util\Shell.cs" />
   </ItemGroup>
@@ -163,15 +180,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Ui\CrossButton.xaml">
+    <Page Include="Ui\Main\CrossButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ui\Host.xaml">
+    <Page Include="Ui\Main\Host.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Ui\OutputCard.xaml">
+    <Page Include="Ui\Interactive\OutputCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -179,11 +196,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Ui\ShellCard.xaml">
+    <Page Include="Ui\Interactive\ShellCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Ui\ShellTab.xaml">
+    <Page Include="Ui\Interactive\ShellTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ui\Main\NewTabControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ui\Main\WorkspaceTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ui\OutputWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -206,7 +235,14 @@
       <Name>SuperShell.Bridge</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\interactive_window.png" />
+    <Resource Include="Resources\output_window.png" />
+    <Resource Include="Resources\source.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\new_file.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

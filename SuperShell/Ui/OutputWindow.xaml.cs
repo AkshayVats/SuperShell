@@ -10,19 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SuperShell.Ui
 {
     /// <summary>
-    /// Interaction logic for Host.xaml
+    /// Interaction logic for OutputWindow.xaml
     /// </summary>
-    public partial class Host : Window
+    public partial class OutputWindow : UserControl
     {
-        public Host()
+        public OutputWindow()
         {
-            Plug.PluginManager.Init(Core.Evaluator.Inst);
-            Actions.ActionManager.RefreshActions();
             InitializeComponent();
         }
     }

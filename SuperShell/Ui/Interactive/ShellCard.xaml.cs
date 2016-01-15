@@ -36,13 +36,23 @@ namespace SuperShell.Ui
         private void AddEditor()
         {
             input = Plug.PluginManager.CodeEditorProvider.GenerateShellInput();
-            input.SetCommandHistoryManager(LastCommandsManager.Inst);
+            input.SetCommandHistoryManager(Core.Workspace.LastCommandsManager.Inst);
             var editorUi = input.Control;
             editorUi.Padding = new Thickness(5);
             input.CommandEntered += ShellInputControl_CommandEntered;
+            input.TextChanged += Input_TextChanged;
             grid.Children.Add(editorUi);
 
             editorUi.PreviewKeyUp += EditorUi_PreviewKeyUp;
+        }
+
+        private void Input_TextChanged(object sender, EventArgs e)
+        {
+            if (IsEvaluated)
+            {
+                input.Control.Style = FindResource("shell_active") as Style;
+                IsEvaluated = false;
+            }
         }
 
         private void EditorUi_PreviewKeyUp(object sender, KeyEventArgs e)
@@ -63,7 +73,7 @@ namespace SuperShell.Ui
 
         private void EvaluateCommand(string e)
         {
-            input.Evaluating = true;
+            input.SetReadOnly(true);
             IsEvaluated = false;
             input.Control.Style = FindResource("shell_evaluating") as Style;
             //ClearCardOutput();
@@ -73,7 +83,7 @@ namespace SuperShell.Ui
                 var output = new OutputCard();
                 output.RenderMessage(String.Join("\n", result.Errors), OutputCard.OutputType.Error);
                 stackPanel.Children.Add(output);
-                input.Evaluating = null;
+                input.SetReadOnly(false);
                 input.Control.Style = FindResource("shell_active") as Style;
             }
             else
@@ -84,7 +94,7 @@ namespace SuperShell.Ui
                 }
 
                 IsEvaluated = true;
-                input.Evaluating = false;
+                input.SetReadOnly(false);
                 _cardManager.AddEmptyCard();
             }
         }
@@ -117,6 +127,15 @@ namespace SuperShell.Ui
             int z = input.CaretOffset + str.Length;
             input.Text = input.Text.Insert(input.CaretOffset, str);
             input.CaretOffset = z;
+        }
+
+        internal string GetInput()
+        {
+            return input.Text;
+        }
+        internal void SetInput(string code)
+        {
+
         }
     }
 }

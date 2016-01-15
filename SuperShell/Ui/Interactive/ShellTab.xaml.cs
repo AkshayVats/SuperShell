@@ -23,7 +23,6 @@ namespace SuperShell.Ui
         public ShellTab()
         {
             InitializeComponent();
-            AddNewShellCard();
         }
 
         public void AddEmptyCard()
@@ -38,11 +37,26 @@ namespace SuperShell.Ui
             return lastCard;
         }
 
-        private void AddNewShellCard()
+        private ShellCard AddNewShellCard()
         {
             var card = new ShellCard(this);
             panel.Children.Add(card);
-            card.Focus();
+            return card;
+        }
+
+        internal List<string> GetInputs()
+        {
+            var list = new List<string>();
+            foreach (var card in panel.Children.Cast<ShellCard>())
+                list.Add(card.GetInput());
+            return list;
+        }
+        internal void LoadInputs(List<string> inputs)
+        {
+            foreach(var input in inputs)
+            {
+                AddNewShellCard().SetInput(input);
+            }
         }
     }
 }

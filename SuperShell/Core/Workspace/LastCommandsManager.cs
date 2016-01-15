@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SuperShell.Core
+namespace SuperShell.Core.Workspace
 {
     static class LastCommandsManager
     {

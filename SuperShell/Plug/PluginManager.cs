@@ -10,7 +10,7 @@ namespace SuperShell.Plug
 {
     static class PluginManager
     {
-        static readonly string location = Environment.CurrentDirectory + "/Plugs/";
+        static readonly string location = Environment.CurrentDirectory + "\\Plugs";
         public static Bridge.Plug.ICodeEditorProvider CodeEditorProvider;
         public static void Init(Bridge.Core.IShell shell)
         {
@@ -33,6 +33,7 @@ namespace SuperShell.Plug
 
             foreach (FileInfo file in info.GetFiles("*.dll")) //loop through all dll files in directory
             {
+                if (!file.Name.StartsWith("plug_")) continue;
                 Assembly currentAssembly = null;
                 try
                 {
