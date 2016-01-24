@@ -19,17 +19,23 @@ namespace SuperShell.Core.Workspace
         static ConsoleWriter consoleWriter;                         //For console window
         static TabItem outputTab;                                   //Console window tab, there is only one such tab, we save its reference
         static bool _hasWorkspace;                                  //have we loaded any workspace, Name = null
+        static List<string> workspaceFiles;                         //Path of workspace files
 
         /// <summary>
         /// Create workspace with given name
         /// </summary>
         /// <param name="name">Name of the workspace</param>
-        public static void CreateWorkspace(string name)
+        public static async void CreateWorkspace(string name)
         {
-            InitEvaluator();
-            WorkspaceModel model = WorkspaceModel.NewWorkspace(name);
-            Load(model);
-            
+            var proj = Root + "\\" + name+"\\proj.ssw";
+            if (File.Exists(proj))
+                await Load(proj);
+            else
+            {
+                InitEvaluator();
+                WorkspaceModel model = WorkspaceModel.NewWorkspace(name);
+                Load(model);
+            }
         }
 
         /// <summary>
@@ -42,13 +48,13 @@ namespace SuperShell.Core.Workspace
             Evaluator.NewInstance();
             Plug.PluginManager.Init(Evaluator.Inst);                //plugins use reference to evaluator
             Actions.ActionManager.RefreshActions();                 //redundant (one time init will suffice)
-
+            workspaceFiles = new List<string>();
         }
 
         private static void Load(WorkspaceModel model)
         {
             Name = model.Name;
-            
+            _hasWorkspace = true;
             //Set title of the main window
             Actions.ActionManager.FindAncestor<System.Windows.Window>(Ui.Host.Tabs).Title = "#"+Name;
 
@@ -58,7 +64,13 @@ namespace SuperShell.Core.Workspace
             Task.Factory.StartNew(() => {
                 Parallel.ForEach(model.Assemblies, (path) =>
                 {
-                    Evaluator.Inst.LoadAssembly(path);
+                    try {
+                        Evaluator.Inst.LoadAssembly(path);
+                    }
+                    catch(Exception e)
+                    {
+
+                    }
                 });
                 Evaluator.Inst.Evaluate(model.Usings);              //restore usings
             });
@@ -68,27 +80,36 @@ namespace SuperShell.Core.Workspace
 
             //setup ui
             Ui.Host.Tabs.Items.Clear();
+            outputTab = null;
             foreach (var winModel in model.Windows)
             {
-                if (winModel.WinType == WindowModel.WindowType.Interactive)
-                {
-                    var tab = new Ui.Interactive.ShellTab();
-                    tab.Load(winModel.FilePath);
-                    Ui.Host.Tabs.Items.Add(new TabItem() { Content = tab, Header = "C# Interactive" });
-                }
-                else if(winModel.WinType == WindowModel.WindowType.Text)
-                {
-                    var tab = new Ui.Main.TextTab();
-                    tab.Load(winModel.FilePath);
-                    Ui.Host.Tabs.Items.Add(new TabItem() { Content = tab, Header = "Text" });
-                }
+                var tabHeader = GetTab(winModel.WinType);
+                if (tabHeader == null) continue;
+                var tab = tabHeader.Item1;
+                if (winModel.FilePath == null)
+                    winModel.FilePath = GetNewFilePath(winModel.WinType);
+                tab.Load(winModel.FilePath);
+                workspaceFiles.Add(winModel.FilePath);              //TODO:assert unique
+                Ui.Host.Tabs.Items.Add(new TabItem() { Content = tab, Header = tabHeader.Item2 });
             }
             Ui.Host.Tabs.Items.Add(new TabItem() { Content = new Ui.Main.NewTabControl(), Header = "New" });
             Ui.Host.Tabs.SelectedIndex = 0;
-            _hasWorkspace = true;
+            
 
         }
-
+        private static Tuple<WorkspaceTab, string> GetTab(WindowModel.WindowType winType)
+        {
+            switch (winType)
+            {
+                case WindowModel.WindowType.Interactive:
+                    return new Tuple<WorkspaceTab, string>(new Ui.Interactive.ShellTab() as WorkspaceTab, "C# Interactive");
+                case WindowModel.WindowType.Text:
+                    return new Tuple<WorkspaceTab, string>(new Ui.Main.TextTab() as WorkspaceTab, "Text");
+                case WindowModel.WindowType.Source:
+                    return new Tuple<WorkspaceTab, string>(new Ui.Main.SourceTab() as WorkspaceTab, "Source");
+            }
+            return null;
+        }
         public static async Task<bool> Load(string path)
         {
             if (!File.Exists(path))
@@ -118,25 +139,16 @@ namespace SuperShell.Core.Workspace
             model.Name = Name;
             model.Assemblies = Evaluator.Inst.LoadedAssemblyLocations;
             model.CommandHistory = CommandHistoryManager.Inst.Commands.ToArray();
-            model.ConsoleOutput = consoleWriter.ToString();
+            model.ConsoleOutput = consoleWriter.Text;
             model.Usings = Evaluator.Inst.GetUsing();
 
             var windows = new List<WindowModel>();
             for(int i = 0; i < Ui.Host.Tabs.Items.Count - 1; i++)
             {
-                var tabItem = (Ui.Host.Tabs.Items[i] as TabItem);
-                var filePath = dir + "\\file" + i;
-                if(tabItem.Header.ToString() == "C# Interactive")
-                {
-                    var tab = tabItem.Content as Ui.Interactive.ShellTab;
-                    windows.Add(new WindowModel() { WinType = WindowModel.WindowType.Interactive, FilePath = filePath });
-                    tab.Save(filePath);
-                }else if(tabItem.Header.ToString() == "Text")
-                {
-                    var tab = tabItem.Content as Ui.Main.TextTab;
-                    windows.Add(new WindowModel() { WinType = WindowModel.WindowType.Text, FilePath = filePath });
-                    tab.Save(filePath);
-                }
+                var tab = (Ui.Host.Tabs.Items[i] as TabItem).Content as WorkspaceTab;
+                if (tab.GetWindowType() == WindowModel.WindowType.Console) continue;
+                windows.Add(new WindowModel() { WinType = tab.GetWindowType(), FilePath = tab.GetFilePath() });
+                tab.Save();
             }
             model.Windows = windows.ToArray();
             var project = dir + "\\proj.ssw";
@@ -187,23 +199,24 @@ namespace SuperShell.Core.Workspace
         }
         private static void ConsoleWriter_TextChange(object sender, EventArgs e)
         {
-            if (outputTab != null)
-            {
-                var outputWindow = outputTab.Content as Ui.OutputWindow;
-                outputWindow.txtConsole.Text = consoleWriter.Text;
-            }
+            if (outputTab == null)
+                OpenConsoleWindow(false);
+            var outputWindow = outputTab.Content as Ui.OutputWindow;
+            outputWindow.txtConsole.Text = consoleWriter.Text;
         }
 
         static internal void NewInteractiveWindow()
         {
-            Ui.Host.Tabs.Items.Insert(0, new TabItem() { Content = new Ui.Interactive.ShellTab(), Header = "C# Interactive" });
+            var tab = new Ui.Interactive.ShellTab() as WorkspaceTab;
+            tab.Load(GetNewFilePath(WindowModel.WindowType.Interactive));
+            Ui.Host.Tabs.Items.Insert(0, new TabItem() { Content = tab, Header = "C# Interactive" });
             Ui.Host.Tabs.SelectedIndex = 0;
         }
         internal static void AddConsoleMessage(string msg)
         {
             consoleWriter.WriteLine(msg);
         }
-        internal static void OpenConsoleWindow()
+        internal static void OpenConsoleWindow(bool select=true)
         {
             if (outputTab == null)
             {
@@ -213,13 +226,38 @@ namespace SuperShell.Core.Workspace
                 outputTab.Header = "Console";
                 outputWindow.txtConsole.Text = consoleWriter.Text;
             }
-            Ui.Host.Tabs.Items.Insert(0, outputTab);
-            Ui.Host.Tabs.SelectedIndex = 0;
+            Ui.Host.Tabs.Items.Insert(Ui.Host.Tabs.Items.Count - 1, outputTab);
+            if(select)
+                Ui.Host.Tabs.SelectedIndex = Ui.Host.Tabs.Items.Count - 2;
         }
         internal static void NewTextWindow()
         {
-            Ui.Host.Tabs.Items.Insert(Ui.Host.Tabs.Items.Count-1, new TabItem() { Content = new Ui.Main.TextTab(), Header = "Text" });
+            var tab = new Ui.Main.TextTab() as WorkspaceTab;
+            tab.Load(GetNewFilePath(WindowModel.WindowType.Text));
+            Ui.Host.Tabs.Items.Insert(Ui.Host.Tabs.Items.Count-1, new TabItem() { Content = tab, Header = "Text" });
             Ui.Host.Tabs.SelectedIndex = Ui.Host.Tabs.Items.Count - 2;
+        }
+        internal static void NewSourceWindow()
+        {
+            var tab = new Ui.Main.SourceTab() as WorkspaceTab;
+            tab.Load(GetNewFilePath(WindowModel.WindowType.Source));
+            Ui.Host.Tabs.Items.Insert(Ui.Host.Tabs.Items.Count - 1, new TabItem() { Content = tab, Header = "Source" });
+            Ui.Host.Tabs.SelectedIndex = Ui.Host.Tabs.Items.Count - 2;
+        }
+        private static string GetNewFilePath(WindowModel.WindowType winTyp)
+        {
+            string ext;
+            if (winTyp == WindowModel.WindowType.Interactive) ext = ".csx";
+            else if (winTyp == WindowModel.WindowType.Source) ext = ".cs";
+            else if (winTyp == WindowModel.WindowType.Text) ext = ".txt";
+            else return null;
+            if (!_hasWorkspace) throw new Exception("No workspace");
+            var prefix = Root + "\\" + Name+"\\file";
+            for(int i=1; ; i++)
+            {
+                if (!workspaceFiles.Contains(prefix + i+ext))
+                    return prefix + i+ext;
+            }
         }
     }
 }

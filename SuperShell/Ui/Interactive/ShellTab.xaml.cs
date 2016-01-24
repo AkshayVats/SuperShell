@@ -12,14 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SuperShell.Core.Workspace;
 
 namespace SuperShell.Ui.Interactive
 {
     /// <summary>
     /// Interaction logic for ShellTab.xaml
     /// </summary>
-    public partial class ShellTab : UserControl, ICardManager
+    public partial class ShellTab : UserControl, ICardManager, Core.Workspace.WorkspaceTab
     {
+        private string _filePath;
         public ShellTab()
         {
             InitializeComponent();
@@ -28,7 +30,7 @@ namespace SuperShell.Ui.Interactive
         public void AddEmptyCard()
         {
             var lastCard = GetLastCard();
-            if (lastCard.IsEvaluated||lastCard.HasOutput)
+            if (lastCard==null|| lastCard.GetInput()!="")
                 AddNewShellCard();
         }
         public ShellCard GetLastCard()
@@ -47,32 +49,45 @@ namespace SuperShell.Ui.Interactive
         }
 
 
-        internal void Save(string path)
+       
+        
+        async void WorkspaceTab.Load(string filePath)
         {
-            var list = new List<string>();
-            foreach (var card in panel.Children.Cast<ShellCard>())
-                list.Add(card.GetInput());
-            using (var sw = new System.IO.StreamWriter(path))
-            {
-                sw.Write(Newtonsoft.Json.JsonConvert.SerializeObject(list));
-            }
-        }
-        internal async void Load(string path)
-        {
-            if(path == null)
+            _filePath = filePath;
+            if (!System.IO.File.Exists(filePath))
             {
                 AddNewShellCard();
                 return;
             }
-            using (var sr = new System.IO.StreamReader(path))
+            using (var sr = new System.IO.StreamReader(filePath))
             {
                 var list = Newtonsoft.Json.JsonConvert.DeserializeObject<string[]>(await sr.ReadToEndAsync());
-                foreach(var code in list)
+                foreach (var code in list)
                 {
                     AddNewShellCard().SetInput(code);
                 }
             }
         }
-        
+
+        public void Save()
+        {
+            var list = new List<string>();
+            foreach (var card in panel.Children.Cast<ShellCard>())
+                list.Add(card.GetInput());
+            using (var sw = new System.IO.StreamWriter(_filePath))
+            {
+                sw.Write(Newtonsoft.Json.JsonConvert.SerializeObject(list));
+            }
+        }
+
+        WindowModel.WindowType WorkspaceTab.GetWindowType()
+        {
+            return WindowModel.WindowType.Interactive;
+        }
+
+        public string GetFilePath()
+        {
+            return _filePath;
+        }
     }
 }

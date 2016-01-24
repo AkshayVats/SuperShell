@@ -28,6 +28,14 @@ namespace ICSharpCode.CodeCompletion
             Shell = shell;
             Shell.AssemblyReferenced += Shell_AssemblyReferenced;
             LoadAssemblies(Shell.LoadedAssemblyLocations.Concat(GetDefaultAssemblies()));
+            foreach (var doc in shell.CompiledDocuments)
+                ProcessInput(doc.Text, doc.Path);
+            Shell.DocumentCompiled += Shell_DocumentCompiled;
+        }
+
+        private void Shell_DocumentCompiled(object sender, Document e)
+        {
+            ProcessInput(e.Text, e.Path);
         }
 
         private IEnumerable<string> GetDefaultAssemblies()

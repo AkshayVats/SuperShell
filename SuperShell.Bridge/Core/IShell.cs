@@ -13,5 +13,8 @@ namespace SuperShell.Bridge.Core
         string GetUsing();
         event EventHandler<Assembly> AssemblyReferenced;
         string[] LoadedAssemblyLocations { get; }
+
+        Document[] CompiledDocuments { get; }
+        event EventHandler<Document> DocumentCompiled;
     }
 }

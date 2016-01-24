@@ -12,7 +12,7 @@ using SuperShell.Bridge.Core;
 
 namespace ICSharpCode.CodeCompletion
 {
-    public class CodeTextEditor : AvalonEdit.TextEditor, SuperShell.Bridge.Ui.IShellInputControl
+    public class CodeTextEditor : AvalonEdit.TextEditor, SuperShell.Bridge.Ui.ICodeEditorControl
     {
         protected CompletionWindow completionWindow;
         protected OverloadInsightWindow insightWindow;
@@ -24,7 +24,7 @@ namespace ICSharpCode.CodeCompletion
             SyntaxHighlighting = ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance.GetDefinition("C#");
             HorizontalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Auto;
             VerticalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Disabled;
-            PreviewKeyDown += CodeTextEditor_PreviewKeyDown;
+            ShowLineNumbers = true;
 
             TextArea.TextEntering += OnTextEntering;
             TextArea.TextEntered += OnTextEntered;
@@ -34,49 +34,6 @@ namespace ICSharpCode.CodeCompletion
             var cb = new CommandBinding(ctrlSpace, OnCtrlSpaceCommand);
 
             this.CommandBindings.Add(cb);
-        }
-
-        private void CodeTextEditor_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (completionWindow == null)
-            {
-                if (!IsReadOnly&& e.Key == Key.Enter||(e.Key==Key.System&&e.SystemKey==Key.Enter))
-                {
-                    if (e.Key == Key.Enter)
-                        CommandEntered?.Invoke(this, Text);
-                    else
-                        CommandAltEntered?.Invoke(this, Text);
-                    e.Handled = true;
-                    _lastCommands.Add(Text);
-                    if (_resetCommandHistory)
-                        _lastCommands.Reset();
-                }
-                if (insightWindow == null)
-                {
-                    if (e.Key == Key.Up)
-                    {
-                        var code = _lastCommands.Previous();
-                        if (code != null)
-                        {
-                            Clear();
-                            AppendText(code);
-                        }
-                        _resetCommandHistory = false;
-                    }
-                    else if (e.Key == Key.Down)
-                    {
-                        var code = _lastCommands.Next();
-                        if (code != null)
-                        {
-                            Clear();
-                            AppendText(code);
-                        }
-                        _resetCommandHistory = false;
-                    }
-                    else _resetCommandHistory = true;
-                    
-                }
-            }
         }
 
         public CSharpCompletion Completion { get; set; }
@@ -257,13 +214,7 @@ namespace ICSharpCode.CodeCompletion
         #endregion
 
         #region IShellInputControl
-        private bool _resetCommandHistory;
-        private ICommandHistoryManager _lastCommands;
-        public event EventHandler<string> CommandEntered;
-        public event EventHandler<string> CommandAltEntered;
-
-        private bool? _evaluating;
-        
+         
 
         public Control Control
         {
@@ -272,11 +223,7 @@ namespace ICSharpCode.CodeCompletion
                 return this;
             }
         }
-        public void SetCommandHistoryManager(ICommandHistoryManager manager)
-        {
-            _lastCommands = manager;
-        }
-
+        
         public void SetReadOnly(bool readOnly)
         {
             IsReadOnly = readOnly;

@@ -12,9 +12,19 @@ namespace ICSharpCode.CodeCompletion
     {
         CSharpCompletion _completion;
         List<WeakReference<CodeTextEditor>> _editors = new List<WeakReference<CodeTextEditor>>();
-        public IShellInputControl GenerateShellInput()
+
+        public ICodeEditorControl GenerateCodeEditor(string filename)
         {
             var avalon = new CodeTextEditor();
+            if (_completion == null) _editors.Add(new WeakReference<CodeTextEditor>(avalon));
+            else avalon.Completion = _completion;
+            avalon.FileName = filename;
+            return avalon;
+        }
+
+        public IShellInputControl GenerateShellInput()
+        {
+            var avalon = new ShellControl();
             if (_completion == null) _editors.Add(new WeakReference<CodeTextEditor>(avalon));
             else avalon.Completion = _completion;
             avalon.FileName = "Repl.csx";
@@ -32,6 +42,7 @@ namespace ICSharpCode.CodeCompletion
                     target.Completion = _completion;
                 }
             });
+            
         }
     }
 }

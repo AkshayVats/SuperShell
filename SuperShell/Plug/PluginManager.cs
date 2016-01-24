@@ -12,6 +12,7 @@ namespace SuperShell.Plug
     {
         static readonly string location = Environment.CurrentDirectory + "\\Plugs";
         public static Bridge.Plug.ICodeEditorProvider CodeEditorProvider;
+
         public static void Init(Bridge.Core.IShell shell)
         {
             var typ = GetInterfaceImplementor<Bridge.Plug.ICodeEditorProvider>(location).FirstOrDefault();

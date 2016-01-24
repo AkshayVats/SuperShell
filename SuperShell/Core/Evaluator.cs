@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using SuperShell.Bridge.Core;
 
 namespace SuperShell.Core
 {
@@ -41,6 +42,14 @@ namespace SuperShell.Core
             get
             {
                 return _assemblyPaths.ToArray();
+            }
+        }
+        private Dictionary<string, string> compiledDocuments = new Dictionary<string, string>();
+        public Document[] CompiledDocuments
+        {
+            get
+            {
+                return compiledDocuments.Select(i=>new Document(i.Key, i.Value)).ToArray();
             }
         }
 
@@ -94,6 +103,8 @@ namespace SuperShell.Core
         int varCount;
 
         public event EventHandler<Assembly> AssemblyReferenced;
+        public event EventHandler<Document> DocumentCompiled;
+
         public new void ReferenceAssembly(Assembly assembly)
         {
             base.ReferenceAssembly(assembly);
@@ -106,7 +117,7 @@ namespace SuperShell.Core
             var assembly = AppDomain.CurrentDomain.GetAssemblies().Where(i=>i.IsDynamic==false).FirstOrDefault(i => i.Location == path);
             if(assembly == null)
             {
-                Console.WriteLine("Loaded a new assembly, "+path);
+                //Console.WriteLine("Loaded a new assembly, "+path);
                 assembly = Assembly.LoadFile(path);
             }
             ReferenceAssembly(assembly);
@@ -123,6 +134,12 @@ namespace SuperShell.Core
         {
             var vars = base.GetVars().Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
             return string.Join("\n", vars.Select(i => i.Split('=')[0]+";"));
+        }
+        public void CompileDocument(string text, string path)
+        {
+            var zz = Compile(text);
+            compiledDocuments[path] = text;
+            DocumentCompiled?.Invoke(this, new Document(path, text));
         }
     }
 }

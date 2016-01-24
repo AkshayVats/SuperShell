@@ -10,5 +10,6 @@ namespace SuperShell.Bridge.Plug
     {
         void InitCompletion(Core.IShell shell);
         Ui.IShellInputControl GenerateShellInput();
+        Ui.ICodeEditorControl GenerateCodeEditor(string filename);
     }
 }

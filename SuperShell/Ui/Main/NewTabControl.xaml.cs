@@ -48,6 +48,8 @@ namespace SuperShell.Ui.Main
                 case 1:
                     Core.Workspace.Workspace.OpenConsoleWindow();
                     break;
+                case 2:Core.Workspace.Workspace.NewSourceWindow();
+                    break;
                 case 3:
                     Core.Workspace.Workspace.NewTextWindow();
                     break;

@@ -28,7 +28,7 @@ namespace SuperShell.Ui.Main
             //var l = Properties.Settings.Default.LastWorkspace;
             Loaded += WorkspaceTab_Loaded;
             var last = Properties.Settings.Default.LastWorkspace;
-            if (last != null && last != "") return;
+            if (last != null && last != ""&&System.IO.File.Exists(last)) return;
                 InitializeComponent();
             listbox.ItemsSource = Properties.Settings.Default.Recent;
             if (listbox.HasItems) lEmpty.Visibility = Visibility.Collapsed;
