@@ -46,5 +46,14 @@ namespace SuperShell.Core
 
             return retType.ToString();
         }
+        public static LinkedListNode<string> NextOrFirst(this LinkedListNode<string> current)
+        {
+            return current.Next?? current.List.First;
+        }
+
+        public static LinkedListNode<string> PreviousOrLast(this LinkedListNode<string> current)
+        {
+            return current.Previous?? current.List.Last;
+        }
     }
 }

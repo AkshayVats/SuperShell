@@ -14,7 +14,7 @@ namespace SuperShell.Output
     {
         public static FrameworkElement GenerateMessage(string msg)
         {
-            return new Ui.ShellSelectableText() { Text = msg };
+            return new Ui.Interactive.ShellSelectableText() { Text = msg };
         }
         public static FrameworkElement GenerateOutput(object obj)
         {

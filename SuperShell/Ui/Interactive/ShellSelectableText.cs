@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace SuperShell.Ui
+namespace SuperShell.Ui.Interactive
 {
     class ShellSelectableText:TextBox
     {

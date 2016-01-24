@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SuperShell.Ui"
+             xmlns:interactive="clr-namespace:SuperShell.Ui.Interactive"
              mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="21.378" SizeChanged="UserControl_SizeChanged">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -11,7 +11,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <local:ShellSelectableText x:Name="txtContent" TextWrapping="Wrap" Text="Yolo" FlowDirection="LeftToRight"/>
+        <interactive:ShellSelectableText x:Name="txtContent" TextWrapping="Wrap" Text="Yolo" FlowDirection="LeftToRight"/>
 
         <TextBlock x:Name="txtType" TextWrapping="Wrap" Text="System.String" Foreground="#FF494949"
 			MaxWidth="100"

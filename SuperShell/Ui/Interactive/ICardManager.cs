@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SuperShell.Ui
+namespace SuperShell.Ui.Interactive
 {
     internal interface ICardManager
     {

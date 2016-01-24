@@ -28,13 +28,18 @@ namespace SuperShell.Actions
 
         public bool CanInvoke(object[] obj)
         {
-            return obj.Length==1;
+            return obj.Length>0;
         }
 
         public void Invoke(object[] obj, IObjectViewer viewer)
         {
-            var card = ActionManager.FindAncestor<Ui.ICardManager>(viewer);
-            card?.GetLastCard().AppendInput(Core.Evaluator.Inst.RefrenceObject(obj.First()));
+            if (obj.Length == 0) return;
+            var card = ActionManager.FindAncestor<Ui.Interactive.ICardManager>(viewer);
+            string objName;
+            if(obj.Length==1)
+                objName = Core.Evaluator.Inst.RefrenceObject(obj.First());
+            else objName = Core.Evaluator.Inst.RefrenceObject(obj);
+            card?.GetLastCard().AppendInput(objName);
         }
     }
 }

@@ -30,7 +30,7 @@
                             </Border>
                             <ui:CrossButton HorizontalAlignment="Right" Height="15" Margin="0,10,10,0" VerticalAlignment="Top" Width="15" Cursor="Hand"
 								shell:WindowChrome.IsHitTestVisibleInChrome="True"/>
-                            <TextBlock x:Name="label" FontFamily="Cambria Math" Text="#SuperShell" Margin="10,10,0,0" VerticalAlignment="Top"  Foreground="#FF0969AC" FontSize="14">
+                            <TextBlock x:Name="label" FontFamily="Cambria Math" Text="{Binding Title, RelativeSource={RelativeSource TemplatedParent}}" Margin="10,10,0,0" VerticalAlignment="Top"  Foreground="#FF0969AC" FontSize="14">
                                 <TextBlock.Effect>
                                     <DropShadowEffect Color="#FF606464" ShadowDepth="1" BlurRadius="0" Opacity="0.3"/>
                                 </TextBlock.Effect>

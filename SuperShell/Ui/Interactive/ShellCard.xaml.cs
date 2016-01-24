@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace SuperShell.Ui
+namespace SuperShell.Ui.Interactive
 {
     /// <summary>
     /// Interaction logic for InputControl.xaml
@@ -36,15 +36,23 @@ namespace SuperShell.Ui
         private void AddEditor()
         {
             input = Plug.PluginManager.CodeEditorProvider.GenerateShellInput();
-            input.SetCommandHistoryManager(Core.Workspace.LastCommandsManager.Inst);
+            input.SetCommandHistoryManager(Core.Workspace.CommandHistoryManager.Inst);
             var editorUi = input.Control;
             editorUi.Padding = new Thickness(5);
             input.CommandEntered += ShellInputControl_CommandEntered;
+            input.CommandAltEntered += Input_CommandAltEntered;
             input.TextChanged += Input_TextChanged;
             grid.Children.Add(editorUi);
 
             editorUi.PreviewKeyUp += EditorUi_PreviewKeyUp;
         }
+
+        private void Input_CommandAltEntered(object sender, string e)
+        {
+            EvaluateCommandAsync(e);
+        }
+
+        
 
         private void Input_TextChanged(object sender, EventArgs e)
         {
@@ -70,14 +78,25 @@ namespace SuperShell.Ui
         {
             EvaluateCommand(e);
         }
-
+        private async void EvaluateCommandAsync(string e)
+        {
+            PreEvaluate();
+            Evaluator.CompilerResult result = null;
+            await Task.Factory.StartNew(() => {
+                result = Evaluator.Inst.Evaluate(e);
+            });
+            
+            PostEvaluate(result);
+        }
         private void EvaluateCommand(string e)
         {
-            input.SetReadOnly(true);
-            IsEvaluated = false;
-            input.Control.Style = FindResource("shell_evaluating") as Style;
-            //ClearCardOutput();
+            PreEvaluate();
             var result = Evaluator.Inst.Evaluate(e);
+            PostEvaluate(result);
+        }
+
+        private void PostEvaluate(Evaluator.CompilerResult result)
+        {
             if (result.Errors?.Count() > 0)
             {
                 var output = new OutputCard();
@@ -97,6 +116,13 @@ namespace SuperShell.Ui
                 input.SetReadOnly(false);
                 _cardManager.AddEmptyCard();
             }
+        }
+
+        private void PreEvaluate()
+        {
+            input.SetReadOnly(true);
+            IsEvaluated = false;
+            input.Control.Style = FindResource("shell_evaluating") as Style;
         }
 
         public void AddOutputCard(object result)
@@ -135,7 +161,7 @@ namespace SuperShell.Ui
         }
         internal void SetInput(string code)
         {
-
+            input.Text = code;
         }
     }
 }

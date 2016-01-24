@@ -12,6 +12,7 @@ namespace SuperShell.Bridge.Ui
     {
         event EventHandler TextChanged;
         event EventHandler<string> CommandEntered;
+        event EventHandler<string> CommandAltEntered;
         void SetReadOnly(bool readOnly);
         Control Control { get; }
         int CaretOffset { get; set; }

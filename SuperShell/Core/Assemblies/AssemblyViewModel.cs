@@ -13,12 +13,22 @@ namespace SuperShell.Core.Assemblies
         public string AssemblyName { get; }
         public System.Version Version { get; }
         internal string Path { get; }
+        public bool IsReferenced { get; }
         public AssemblyViewModel(AssemblyName assemblyName)
         {
             _assemblyName = assemblyName;
             AssemblyName = _assemblyName.Name;
             Path = GAC.FindAssemblyInNetGac(_assemblyName);
             Version = _assemblyName.Version;
+            IsReferenced = Evaluator.Inst.LoadedAssemblyLocations.Any(i=>i.Equals(Path, StringComparison.OrdinalIgnoreCase));
+        }
+        public AssemblyViewModel(string dllPath)
+        {
+            _assemblyName = System.Reflection.AssemblyName.GetAssemblyName(dllPath);
+            AssemblyName = _assemblyName.Name;
+            Path = dllPath;
+            Version = _assemblyName.Version;
+            IsReferenced = Evaluator.Inst.LoadedAssemblyLocations.Any(i => i.Equals(Path, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

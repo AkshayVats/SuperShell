@@ -21,9 +21,21 @@ namespace SuperShell.Util
         {
             return new BitmapImage(path);
         }
-        public static void LL()
+        public static List<Core.Assemblies.AssemblyViewModel> GetAssemblies()
         {
-            int t = 0;
+            return Core.Assemblies.FrameworkAssemblies.ListAssemblies("v4.5.2").ToList();
+        }
+        public static void ReferenceAssemblies(IEnumerable<Core.Assemblies.AssemblyViewModel> assemblies)
+        {
+            foreach (var a in assemblies)
+                Core.Evaluator.Inst.LoadAssembly(a.Path);
+            Console.WriteLine("Assemblies referenced");
+        }
+        public static List<Core.Assemblies.AssemblyViewModel> GetReferencedAssemblies()
+        {
+            return Core.Evaluator.Inst.LoadedAssemblyLocations
+                .Select(i => new Core.Assemblies.AssemblyViewModel(i))
+                .ToList();
         }
     }
 }

@@ -40,28 +40,41 @@ namespace ICSharpCode.CodeCompletion
         {
             if (completionWindow == null)
             {
-                if (e.Key == Key.Enter && Keyboard.Modifiers == ModifierKeys.None)
+                if (!IsReadOnly&& e.Key == Key.Enter||(e.Key==Key.System&&e.SystemKey==Key.Enter))
                 {
-                    CommandEntered?.Invoke(this, Text);
+                    if (e.Key == Key.Enter)
+                        CommandEntered?.Invoke(this, Text);
+                    else
+                        CommandAltEntered?.Invoke(this, Text);
                     e.Handled = true;
                     _lastCommands.Add(Text);
+                    if (_resetCommandHistory)
+                        _lastCommands.Reset();
                 }
                 if (insightWindow == null)
                 {
                     if (e.Key == Key.Up)
                     {
-                        Clear();
-                        AppendText(_lastCommands.Previous());
+                        var code = _lastCommands.Previous();
+                        if (code != null)
+                        {
+                            Clear();
+                            AppendText(code);
+                        }
+                        _resetCommandHistory = false;
                     }
                     else if (e.Key == Key.Down)
                     {
-                        Clear();
-                        AppendText(_lastCommands.Next());
+                        var code = _lastCommands.Next();
+                        if (code != null)
+                        {
+                            Clear();
+                            AppendText(code);
+                        }
+                        _resetCommandHistory = false;
                     }
-                    else
-                    {
-                        _lastCommands.Reset();
-                    }
+                    else _resetCommandHistory = true;
+                    
                 }
             }
         }
@@ -244,9 +257,10 @@ namespace ICSharpCode.CodeCompletion
         #endregion
 
         #region IShellInputControl
-
+        private bool _resetCommandHistory;
         private ICommandHistoryManager _lastCommands;
         public event EventHandler<string> CommandEntered;
+        public event EventHandler<string> CommandAltEntered;
 
         private bool? _evaluating;
         

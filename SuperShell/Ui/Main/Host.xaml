@@ -9,7 +9,7 @@
         Background="#FFF7F7F7"
         WindowStartupLocation="CenterScreen" 
         xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.AeroLite"
-        Title="Super Shell" Height="700" Width="800" Style="{DynamicResource HostStyle}" Icon="/SuperShell;component/icon.ico">
+        Title="#SuperShell" Height="700" Width="800" Style="{DynamicResource HostStyle}" Icon="/SuperShell;component/icon.ico">
     
     <Grid>
         <TabControl x:Name="tabControl" Margin="10,0,0,0" Background="#FFE6E6E6">

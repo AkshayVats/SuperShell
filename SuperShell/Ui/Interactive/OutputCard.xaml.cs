@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SuperShell.Ui
+namespace SuperShell.Ui.Interactive
 {
     /// <summary>
     /// Interaction logic for OutputCard.xaml

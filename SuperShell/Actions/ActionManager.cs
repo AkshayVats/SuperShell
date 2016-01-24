@@ -37,8 +37,12 @@ namespace SuperShell.Actions
 
         public static T FindAncestor<T>(IObjectViewer viewer)
         {
-            object z = viewer.GetUi();
-            while (!(z is Ui.ICardManager))
+            return (FindAncestor<T>(viewer.GetUi()));
+        }
+        public static T FindAncestor<T>(FrameworkElement element)
+        {
+            object z = element;
+            while (!(z is T))
             {
                 z = (z as FrameworkElement).Parent;
                 if (z == null) return default(T);

@@ -30,7 +30,7 @@ namespace SuperShell.Core.Workspace
             };
             model.Windows = new WindowModel[]
             {
-                InteractiveWindowModel.NewWindowModel(new List<string>() {"" })
+                new WindowModel() { WinType = WindowModel.WindowType.Interactive, FilePath=null}
             };
             model.CommandHistory = new string[0];
             return model;
@@ -38,28 +38,29 @@ namespace SuperShell.Core.Workspace
     }
     class WindowModel
     {
-        internal enum WindowType { Interactive, Console, Source}
-        public WindowType type;
+        internal enum WindowType { Interactive, Console, Source, Text}
+        public WindowType WinType;
+        public string FilePath;
     }
-    class InteractiveWindowModel : WindowModel
-    {
-        public List<string> Inputs;
-        public InteractiveWindowModel()
-        {
-            type = WindowType.Interactive;
-        }
-        internal static InteractiveWindowModel NewWindowModel(List<string> inputs)
-        {
-            var model = new InteractiveWindowModel();
-            model.Inputs = inputs;
-            return model;
-        }
-        internal static TabItem GenerateTab(InteractiveWindowModel model)
-        {
-            var shellTab = new Ui.ShellTab();
-            var tab = new TabItem() { Content = shellTab, Header = "C# Interactive" };
-            shellTab.LoadInputs(model.Inputs);
-            return tab;
-        }
-    }
+    //class InteractiveWindowModel : WindowModel
+    //{
+    //    public List<string> Inputs;
+    //    public InteractiveWindowModel()
+    //    {
+    //        type = WindowType.Interactive;
+    //    }
+    //    internal static InteractiveWindowModel NewWindowModel(List<string> inputs)
+    //    {
+    //        var model = new InteractiveWindowModel();
+    //        model.Inputs = inputs;
+    //        return model;
+    //    }
+    //    internal static TabItem GenerateTab(InteractiveWindowModel model)
+    //    {
+    //        var shellTab = new Ui.ShellTab();
+    //        var tab = new TabItem() { Content = shellTab, Header = "C# Interactive" };
+    //        shellTab.LoadInputs(model.Inputs);
+    //        return tab;
+    //    }
+    //}
 }

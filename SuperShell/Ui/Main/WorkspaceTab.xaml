@@ -10,7 +10,7 @@
         <Grid Height="25.96" VerticalAlignment="Top" DockPanel.Dock="Top" Margin="0,30,0,0">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" d:LayoutOverrides="Height">
                 <Label Content="New Workspace" FontFamily="Consolas"/>
-                <TextBox Width="150" Margin="10,0" Height="22" FontSize="10.667" VerticalContentAlignment="Center"/>
+                <TextBox x:Name="txtWorkspaceName" Width="150" Margin="10,0" Height="22" FontSize="10.667" VerticalContentAlignment="Center"/>
                 <Button BorderBrush="{x:Null}" Background="{x:Null}" x:Name="btnNewWorkspace" Click="btnNewWorkspace_Click" >
                     <Image Source="/SuperShell;component/Resources/new_file.png"/>
                 </Button>
@@ -18,7 +18,7 @@
         </Grid>
         <Grid DockPanel.Dock="Bottom">
             <Label x:Name="lEmpty" Content="Your recent workspaces will appear here" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" FontSize="16"/>
-            <ListBox x:Name="listbox" Width="200" ItemContainerStyle="{DynamicResource GrayListboxItem}" Style="{DynamicResource GrayListbox}" Margin="0,10,0,5" />
+            <ListBox x:Name="listbox" Width="200" ItemContainerStyle="{DynamicResource GrayListboxItem}" Style="{DynamicResource GrayListbox}" Margin="0,10,0,5" SelectionChanged="listbox_SelectionChanged" />
         </Grid>
     </DockPanel>
 </UserControl>

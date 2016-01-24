@@ -38,7 +38,7 @@ namespace SuperShell.Actions
 
         public void Invoke(object[] obj, IObjectViewer viewer)
         {
-            var manager = ActionManager.FindAncestor<Ui.ICardManager>(viewer);
+            var manager = ActionManager.FindAncestor<Ui.Interactive.ICardManager>(viewer);
             foreach (var path in obj.Cast<Uri>())
             {
                 try

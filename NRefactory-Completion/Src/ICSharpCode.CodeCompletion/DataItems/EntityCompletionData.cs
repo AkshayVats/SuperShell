@@ -36,7 +36,7 @@ namespace ICSharpCode.CodeCompletion.DataItems
                 // Show fully qualified Type name
                 ambience.ConversionFlags |= ConversionFlags.UseFullyQualifiedTypeNames;
             }
-            Image = AvalonEdit.CodeCompletion.CompletionImage.GetImage(entity);
+            Image = CodeCompletion.CompletionImage.GetImage(entity);
         }
 
         #region Description & Documentation

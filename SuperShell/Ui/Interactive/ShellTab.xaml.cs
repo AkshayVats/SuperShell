@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SuperShell.Ui
+namespace SuperShell.Ui.Interactive
 {
     /// <summary>
     /// Interaction logic for ShellTab.xaml
@@ -41,22 +41,38 @@ namespace SuperShell.Ui
         {
             var card = new ShellCard(this);
             panel.Children.Add(card);
+            card.Focus();
+            scroller.ScrollToBottom();
             return card;
         }
 
-        internal List<string> GetInputs()
+
+        internal void Save(string path)
         {
             var list = new List<string>();
             foreach (var card in panel.Children.Cast<ShellCard>())
                 list.Add(card.GetInput());
-            return list;
-        }
-        internal void LoadInputs(List<string> inputs)
-        {
-            foreach(var input in inputs)
+            using (var sw = new System.IO.StreamWriter(path))
             {
-                AddNewShellCard().SetInput(input);
+                sw.Write(Newtonsoft.Json.JsonConvert.SerializeObject(list));
             }
         }
+        internal async void Load(string path)
+        {
+            if(path == null)
+            {
+                AddNewShellCard();
+                return;
+            }
+            using (var sr = new System.IO.StreamReader(path))
+            {
+                var list = Newtonsoft.Json.JsonConvert.DeserializeObject<string[]>(await sr.ReadToEndAsync());
+                foreach(var code in list)
+                {
+                    AddNewShellCard().SetInput(code);
+                }
+            }
+        }
+        
     }
 }

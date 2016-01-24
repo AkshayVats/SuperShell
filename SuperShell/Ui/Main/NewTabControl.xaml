@@ -12,10 +12,9 @@
         <BitmapImage x:Key="source_icon" UriSource="/SuperShell;component/Resources/source.png" />
     </UserControl.Resources>
     <DockPanel Margin="0">
-        <DockPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
-            <Button Content="Discard Workspace" HorizontalAlignment="Left" Padding="3" Cursor="Hand"/>
-            <Button Content="Close Workspace" HorizontalAlignment="Right" Padding="3" Cursor="Hand"/>
-        </DockPanel>
+        <Grid DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Height="23.96">
+            <Button x:Name="btnClose" Content="Close Workspace" HorizontalAlignment="Center" Padding="3" Cursor="Hand" Click="btnClose_Click" d:LayoutOverrides="Height"/>
+        </Grid>
         <Grid DockPanel.Dock="Top">
             <ListBox Style="{DynamicResource GrayListbox}" SelectionChanged="listbox_SelectionChanged" x:Name="listbox" VerticalAlignment="Center" ItemContainerStyle="{DynamicResource GrayListboxItem}" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" Width="200" ItemTemplate="{DynamicResource ImageTextTemplate}"/>
         </Grid>

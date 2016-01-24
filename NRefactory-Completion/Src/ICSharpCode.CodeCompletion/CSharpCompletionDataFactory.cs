@@ -24,7 +24,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.NRefactory.Completion;
 using ICSharpCode.NRefactory.TypeSystem;
 using ICompletionData = ICSharpCode.NRefactory.Completion.ICompletionData;
@@ -32,6 +31,7 @@ using ICSharpCode.NRefactory.CSharp.Completion;
 using ICSharpCode.NRefactory.CSharp.TypeSystem;
 using ICSharpCode.CodeCompletion.DataItems;
 using ICSharpCode.NRefactory.CSharp;
+using ICSharpCode.CodeCompletion.CodeCompletion;
 
 namespace ICSharpCode.CodeCompletion
 {

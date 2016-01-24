@@ -33,6 +33,7 @@ namespace SuperShell.Ui.Main
                 new ImageTextViewModel() {Text="Interactive Window", Image=FindResource("interactive_icon")as BitmapImage },
                 new ImageTextViewModel() {Text="Output Window", Image=FindResource("output_icon")as BitmapImage },
                 new ImageTextViewModel() {Text="Source File", Image=FindResource("source_icon")as BitmapImage },
+                new ImageTextViewModel() {Text="Text File", Image=FindResource("source_icon")as BitmapImage },
             };
             listbox.ItemsSource = items;
         }
@@ -47,8 +48,16 @@ namespace SuperShell.Ui.Main
                 case 1:
                     Core.Workspace.Workspace.OpenConsoleWindow();
                     break;
+                case 3:
+                    Core.Workspace.Workspace.NewTextWindow();
+                    break;
             }
             listbox.SelectedIndex = -1;
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            Core.Workspace.Workspace.Close();
         }
     }
 }

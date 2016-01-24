@@ -58,22 +58,9 @@ namespace SuperShell.Output.Viewers
         private void SetObject(IEnumerable obj)
         {
             _underlyingObject = obj;
-            //Try to figure out enumerable generic parameter
-            var typ = obj.GetType().GetElementType(); //easy way
-            if (typ == null)
-            {
-                if (obj.GetType() == typeof(StringCollection))
-                    typ = typeof(string);
-                else typ = (from intType in obj.GetType().GetInterfaces() where intType.IsGenericType && intType.GetGenericTypeDefinition() == typeof(IEnumerable<>) select intType.GetGenericArguments()[0]).FirstOrDefault();
-            }
-            //typ may be null...fuck it get exception
-            if (typ == null)
-            {
-                var zz = obj.Cast<object>().FirstOrDefault();
-                if (zz == null)
-                    return;
-                typ = zz.GetType();
-            }
+
+            if (obj.Cast<object>().Count() == 0) return;
+            var typ = obj.Cast<object>().First().GetType();
 
             var grid = listView.View as GridView;
             foreach (var t in typ.GetProperties())

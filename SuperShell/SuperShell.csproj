@@ -38,6 +38,10 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Web.XmlTransform, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Xdt.2.1.1\lib\net40\Microsoft.Web.XmlTransform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Windows.Shell, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Windows.Shell.3.0.1.0\lib\net40\Microsoft.Windows.Shell.dll</HintPath>
       <Private>True</Private>
@@ -48,6 +52,10 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.Core, Version=2.10.1.766, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\NuGet.Core.2.10.1\lib\net40-Client\NuGet.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="presentationframework.aerolite" />
@@ -81,6 +89,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\Assemblies\AssemblyViewModel.cs" />
+    <Compile Include="Core\Assemblies\FrameworkAssemblies.cs" />
     <Compile Include="Core\Assemblies\GAC.cs" />
     <Compile Include="Core\Assemblies\ReferencesViewer.xaml.cs">
       <DependentUpon>ReferencesViewer.xaml</DependentUpon>
@@ -89,7 +98,6 @@
     <Compile Include="Core\Workspace\ConsoleWriter.cs" />
     <Compile Include="Core\Evaluator.cs" />
     <Compile Include="Core\Extensions.cs" />
-    <Compile Include="Core\Workspace\LastCommandsManager.cs" />
     <Compile Include="Core\Workspace\Workspace.cs" />
     <Compile Include="Core\Workspace\WorkspaceModel.cs" />
     <Compile Include="Output\OutputManager.cs" />
@@ -127,12 +135,16 @@
     <Compile Include="Ui\Main\NewTabControl.xaml.cs">
       <DependentUpon>NewTabControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ui\Main\TextTab.xaml.cs">
+      <DependentUpon>TextTab.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ui\Main\WorkspaceTab.xaml.cs">
       <DependentUpon>WorkspaceTab.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ui\OutputWindow.xaml.cs">
       <DependentUpon>OutputWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Util\Nuget.cs" />
     <Compile Include="Util\Shell.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +217,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Ui\Main\NewTabControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ui\Main\TextTab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

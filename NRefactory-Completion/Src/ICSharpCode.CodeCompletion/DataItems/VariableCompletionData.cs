@@ -19,7 +19,7 @@ namespace ICSharpCode.CodeCompletion.DataItems
             DisplayText = variable.Name;
             Description = ambience.ConvertVariable(variable);
             CompletionText = Variable.Name;
-            this.Image = ICSharpCode.AvalonEdit.CodeCompletion.CompletionImage.Field.BaseImage;
+            this.Image = CodeCompletion.CompletionImage.Field.BaseImage;
         }
 
         public IVariable Variable { get; private set; }

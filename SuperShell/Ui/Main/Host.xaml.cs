@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NuGet;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,12 @@ namespace SuperShell.Ui
         {
             InitializeComponent();
             Tabs = tabControl;
+            Test();
+        }
+
+        private void Test()
+        {
+            Util.NugetPM.InstallPackage("nuget.core");
         }
     }
 }

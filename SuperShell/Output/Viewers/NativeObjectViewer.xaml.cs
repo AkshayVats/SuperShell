@@ -103,10 +103,27 @@ namespace SuperShell.Output.Viewers
                     int ind = 0;
                     var enumerable = _obj as IEnumerable;
                     if (enumerable != null)
-                        foreach (var z in enumerable)
+                    {
+                        var count = enumerable.Cast<object>().Count();
+                        if (count < 50)
                         {
-                            AddProperty($"[{ind++}]", z);
+                            foreach (var z in enumerable)
+                            {
+                                AddProperty($"[{ind++}]", z);
+                            }
                         }
+                        else
+                        {
+                            int beg = 0;
+                            int div = (int)Math.Ceiling(count / 50.0);
+                            for(int i = 0; i < 50; i++)
+                            {
+                                int end = Math.Min(count, beg+div);
+                                AddProperty($"[{beg}-{end-1}]", enumerable.Cast<object>().Skip(beg).Take(end-beg));
+                                beg = end;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -122,8 +139,8 @@ namespace SuperShell.Output.Viewers
             if (typ.IsPrimitive || typ.IsEnum || ExtendedPrimitives.Contains(typ))
             {
 
-                var card = new Ui.OutputCard();
-                card.RenderProperty(name, val, Ui.OutputCard.OutputType.Normal);
+                var card = new Ui.Interactive.OutputCard();
+                card.RenderProperty(name, val, Ui.Interactive.OutputCard.OutputType.Normal);
                 //tb.UnderlyingObject = val;
                 stackPanel.Children.Add(card);
             }

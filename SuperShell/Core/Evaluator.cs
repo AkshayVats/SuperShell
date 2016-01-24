@@ -16,19 +16,22 @@ namespace SuperShell.Core
             public string[] Errors;
             public string[] Warnings;
         }
-        private Mono.CSharp.CompilerContext _ctx;
-        private static Evaluator _inst;
-        private List<string> _assemblyPaths = new List<string>();
 
+        private static Evaluator _inst;
+        private static object _lock = new object();
+
+
+        private Mono.CSharp.CompilerContext _ctx;
+        private List<string> _assemblyPaths = new List<string>();
+        internal static void NewInstance()
+        {
+            var ctx = new Mono.CSharp.CompilerContext(new Mono.CSharp.CompilerSettings(), new Mono.CSharp.ConsoleReportPrinter());
+            _inst = new Evaluator(ctx);
+        }
         public static Evaluator Inst
         {
             get
             {
-                if (_inst == null)
-                {
-                    var ctx = new Mono.CSharp.CompilerContext(new Mono.CSharp.CompilerSettings(), new Mono.CSharp.ConsoleReportPrinter());
-                    _inst = new Evaluator(ctx);
-                }
                 return _inst;
             }
         }
@@ -73,6 +76,7 @@ namespace SuperShell.Core
                 };
             }
         }
+        
         private static bool IsMessage(string message, string messageType)
         {
             //the messages have following format
@@ -105,8 +109,7 @@ namespace SuperShell.Core
                 Console.WriteLine("Loaded a new assembly, "+path);
                 assembly = Assembly.LoadFile(path);
             }
-            _assemblyPaths.Add(path);
-            AssemblyReferenced?.Invoke(this, assembly);
+            ReferenceAssembly(assembly);
         }
         public string RefrenceObject(object obj)
         {

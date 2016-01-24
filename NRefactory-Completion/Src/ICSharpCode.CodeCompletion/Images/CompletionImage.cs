@@ -8,7 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ICSharpCode.NRefactory.TypeSystem;
 
-namespace ICSharpCode.AvalonEdit.CodeCompletion
+namespace ICSharpCode.CodeCompletion.CodeCompletion
 {
 	/// <summary>
 	/// Provides icons for code-completion.
@@ -27,7 +27,7 @@ namespace ICSharpCode.AvalonEdit.CodeCompletion
 		
 		static BitmapImage LoadBitmap(string name)
 		{
-			BitmapImage image = new BitmapImage(new Uri("pack://application:,,,/ICSharpCode.CodeCompletion;component/Images/" + name + ".png"));
+			BitmapImage image = new BitmapImage(new Uri("pack://application:,,,/plug_editor;component/Images/" + name + ".png"));
 			image.Freeze();
 			return image;
 		}
