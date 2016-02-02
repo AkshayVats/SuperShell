@@ -21,6 +21,7 @@ namespace SuperShell.Ui.Interactive
     public partial class OutputCard : UserControl
     {
         object _underlyingObject;
+        public event EventHandler Crossed;
         public OutputCard()
         {
             InitializeComponent();
@@ -94,6 +95,11 @@ namespace SuperShell.Ui.Interactive
             dynamic output = Activator.CreateInstance(cbViewers.SelectedItem as Type);
             output.UnderlyingObject = ((dynamic)_underlyingObject);
             SetOutput(output.GetUi());
+        }
+
+        private void CrossButton_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Crossed?.Invoke(this, null);
         }
     }
 }

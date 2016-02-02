@@ -1,13 +1,18 @@
-﻿<UserControl x:Class="SuperShell.Ui.Interactive.OutputCard"
+﻿<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SuperShell.Ui.Interactive"
+             xmlns:Ui="clr-namespace:SuperShell.Ui" x:Class="SuperShell.Ui.Interactive.OutputCard"
              mc:Ignorable="d" 
              d:DesignHeight="101.013" d:DesignWidth="300">
     <StackPanel>
-        <ComboBox x:Name="cbViewers" Height="13.447" VerticalAlignment="Top" Style="{DynamicResource CB_Transparent}" Margin="0,1,1,0" HorizontalAlignment="Right" Width="136.586" Visibility="Collapsed" SelectionChanged="cbViewers_SelectionChanged"/>
+        <StackPanel HorizontalAlignment="Right" Margin="0,0,1,0" Orientation="Horizontal" VerticalAlignment="Top">
+            <Ui:CrossButton HorizontalAlignment="Right" Height="10" Width="10" Margin="1" MouseUp="CrossButton_MouseUp"/>
+            <ComboBox x:Name="cbViewers" Height="13.447" VerticalAlignment="Top" Style="{DynamicResource CB_Transparent}" Visibility="Collapsed" SelectionChanged="cbViewers_SelectionChanged"/>
+
+        </StackPanel>
         <Grid x:Name="panel" Margin="5"/>
     </StackPanel>
 </UserControl>

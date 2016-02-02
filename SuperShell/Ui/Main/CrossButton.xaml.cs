@@ -24,12 +24,8 @@ namespace SuperShell.Ui
         public CrossButton()
         {
             InitializeComponent();
-            this.MouseUp += CrossButton_MouseUp;
+            
         }
-
-        private void CrossButton_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            SystemCommands.CloseWindow(Window.GetWindow(this));
-        }
+        
     }
 }

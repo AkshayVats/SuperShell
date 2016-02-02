@@ -129,6 +129,7 @@ namespace SuperShell.Ui.Interactive
         {
             var output = new OutputCard();
             output.Render(result, OutputCard.OutputType.Normal);
+            output.Crossed += (o, e) => { stackPanel.Children.Remove(o as UIElement); };
             stackPanel.Children.Add(output);
             input.Control.Style = FindResource("shell_inactive") as Style;
             HasOutput = true;

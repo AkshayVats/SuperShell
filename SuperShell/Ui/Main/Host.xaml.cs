@@ -28,12 +28,19 @@ namespace SuperShell.Ui
         {
             InitializeComponent();
             Tabs = tabControl;
-            Test();
+
+            var closeButton = (this.Template.LoadContent() as FrameworkElement).FindName("closeButton") as CrossButton;
+            closeButton.MouseUp += CloseButton_MouseUp;
+        }
+
+        private void CloseButton_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            SystemCommands.CloseWindow(Window.GetWindow(this));
         }
 
         private void Test()
         {
-            Util.NugetPM.InstallPackage("nuget.core");
+            
         }
     }
 }
