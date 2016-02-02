@@ -17,6 +17,7 @@ namespace SuperShell.Actions
             Actions = new List<IAction>();
             Actions.Add(new GetInstance());
             Actions.Add(new ParseAsImage());
+            Actions.Add(new ParseAsAssembly());
         }
         
 

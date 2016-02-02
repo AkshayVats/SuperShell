@@ -83,6 +83,7 @@
     <Compile Include="Actions\ActionManager.cs" />
     <Compile Include="Actions\GetInstance.cs" />
     <Compile Include="Actions\IAction.cs" />
+    <Compile Include="Actions\ParseAsAssembly.cs" />
     <Compile Include="Actions\ParseAsImage.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -97,7 +98,7 @@
     <Compile Include="Core\Workspace\CommandHistoryManager.cs" />
     <Compile Include="Core\Workspace\ConsoleWriter.cs" />
     <Compile Include="Core\Evaluator.cs" />
-    <Compile Include="Core\Extensions.cs" />
+    <Compile Include="Util\Extensions.cs" />
     <Compile Include="Core\Workspace\Workspace.cs" />
     <Compile Include="Core\Workspace\WorkspaceModel.cs" />
     <Compile Include="Core\Workspace\WorkspaceTab.cs" />

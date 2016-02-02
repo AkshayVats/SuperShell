@@ -45,5 +45,22 @@ namespace SuperShell.Ui
         {
             
         }
+
+        internal void AppendText(string e)
+        {
+            if (e.Trim() == "") return;
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.Invoke(() => {
+                    AppendText(e);
+                    return;
+                });
+            }
+            var text = string.Join(Environment.NewLine, txtConsole.Inlines.Cast<Run>().Select(i => i.Text.Trim()));
+            txtConsole.Inlines.Clear();
+            txtConsole.Inlines.Add(new Run(text+Environment.NewLine) { Foreground = new SolidColorBrush(Colors.WhiteSmoke) });
+            txtConsole.Inlines.Add(new Run(e.Trim()) { Foreground = new SolidColorBrush(Colors.Yellow) });
+            scroller.ScrollToEnd();
+        }
     }
 }

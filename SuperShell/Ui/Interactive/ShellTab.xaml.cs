@@ -89,5 +89,10 @@ namespace SuperShell.Ui.Interactive
         {
             return _filePath;
         }
+        public void ClearAll()
+        {
+            panel.Children.Clear();
+            AddNewShellCard();
+        }
     }
 }

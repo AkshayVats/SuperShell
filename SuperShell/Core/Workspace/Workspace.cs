@@ -61,20 +61,19 @@ namespace SuperShell.Core.Workspace
             consoleWriter.Write(model.ConsoleOutput);               //restore previous console text
 
             //parallelly load all the assemblies
-            Task.Factory.StartNew(() => {
-                Parallel.ForEach(model.Assemblies, (path) =>
+            Parallel.ForEach(model.Assemblies, (path) =>
+            {
+                try
                 {
-                    try {
-                        Evaluator.Inst.LoadAssembly(path);
-                    }
-                    catch(Exception e)
-                    {
+                    Evaluator.Inst.LoadAssembly(path);
+                }
+                catch (Exception e)
+                {
 
-                    }
-                });
-                Evaluator.Inst.Evaluate(model.Usings);              //restore usings
+                }
             });
-            
+            Evaluator.Inst.Evaluate(model.Usings);              //restore usings
+
             //Load command history
             CommandHistoryManager.Inst.Commands = new LinkedList<string>( model.CommandHistory);
 
@@ -197,12 +196,12 @@ namespace SuperShell.Core.Workspace
             Ui.Host.Tabs.Items.Add(new TabItem() { Content = new Ui.Main.WorkspaceTab(), Header = "Home" });
             Ui.Host.Tabs.SelectedIndex = 0;
         }
-        private static void ConsoleWriter_TextChange(object sender, EventArgs e)
+        private static void ConsoleWriter_TextChange(object sender, string e)
         {
             if (outputTab == null)
                 OpenConsoleWindow(false);
             var outputWindow = outputTab.Content as Ui.OutputWindow;
-            outputWindow.txtConsole.Text = consoleWriter.Text;
+            outputWindow.AppendText(e);
         }
 
         static internal void NewInteractiveWindow()

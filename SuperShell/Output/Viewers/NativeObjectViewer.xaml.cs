@@ -116,7 +116,7 @@ namespace SuperShell.Output.Viewers
                         {
                             int beg = 0;
                             int div = (int)Math.Ceiling(count / 50.0);
-                            for(int i = 0; i < 50; i++)
+                            for(;beg<count;)
                             {
                                 int end = Math.Min(count, beg+div);
                                 AddProperty($"[{beg}-{end-1}]", enumerable.Cast<object>().Skip(beg).Take(end-beg));

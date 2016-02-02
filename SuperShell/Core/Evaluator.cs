@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using SuperShell.Bridge.Core;
+using SuperShell.Util;
 
 namespace SuperShell.Core
 {
@@ -137,7 +138,18 @@ namespace SuperShell.Core
         }
         public void CompileDocument(string text, string path)
         {
-            var zz = Compile(text);
+            var errorWriter = new StringWriter();
+            _ctx.Report.SetPrinter(new Mono.CSharp.StreamReportPrinter(errorWriter));
+
+            Mono.CSharp.CompiledMethod mth;
+            try {
+                var zz = Compile(text, out mth);
+            }catch(Exception ex)
+            {
+
+            }
+            Console.WriteLine(errorWriter.ToString());
+
             compiledDocuments[path] = text;
             DocumentCompiled?.Invoke(this, new Document(path, text));
         }

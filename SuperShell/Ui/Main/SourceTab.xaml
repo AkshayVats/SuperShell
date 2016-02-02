@@ -8,6 +8,8 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Button x:Name="button" Content="Compile" HorizontalAlignment="Left" Height="18.228" VerticalAlignment="Top" Width="53.164" FontFamily="Consolas" Click="button_Click"/>
-        <Grid x:Name="grid" Margin="0,23.228,0,0"/>
+        <ScrollViewer Margin="0,23.228,0,0">
+            <Grid x:Name="grid" />
+        </ScrollViewer>
     </Grid>
 </UserControl>

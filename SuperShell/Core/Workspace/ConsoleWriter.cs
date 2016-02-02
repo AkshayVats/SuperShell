@@ -9,7 +9,7 @@ namespace SuperShell.Core.Workspace
 {
     class ConsoleWriter:TextWriter
     {
-        public event EventHandler TextChange;
+        public event EventHandler<string> TextChange;
         public ConsoleWriter()
         {
             Console.SetOut(this);
@@ -28,19 +28,20 @@ namespace SuperShell.Core.Workspace
         {
             base.Write(value);
             Text += value;
-            TextChange?.Invoke(this, null);
+            throw new Exception("Slowing down!");
+            //TextChange?.Invoke(this, value+"");
         }
         public override void Write(string value)
         {
             //base.Write(value);
             Text += value;
-            TextChange?.Invoke(this, null);
+            TextChange?.Invoke(this, value);
         }
         public override void WriteLine(string value)
         {
             //base.WriteLine(value);
             Text += value+"\n";
-            TextChange?.Invoke(this, null);
+            TextChange?.Invoke(this, value+Environment.NewLine);
         }
     }
 }

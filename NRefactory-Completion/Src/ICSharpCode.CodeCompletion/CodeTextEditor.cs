@@ -25,7 +25,7 @@ namespace ICSharpCode.CodeCompletion
             HorizontalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Auto;
             VerticalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Disabled;
             ShowLineNumbers = true;
-
+            
             TextArea.TextEntering += OnTextEntering;
             TextArea.TextEntered += OnTextEntered;
 

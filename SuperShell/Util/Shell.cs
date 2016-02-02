@@ -1,8 +1,10 @@
-﻿using System;
+﻿using SuperShell.Ui.Interactive;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
 namespace SuperShell.Util
@@ -25,7 +27,7 @@ namespace SuperShell.Util
         {
             return Core.Assemblies.FrameworkAssemblies.ListAssemblies("v4.5.2").ToList();
         }
-        public static void ReferenceAssemblies(IEnumerable<Core.Assemblies.AssemblyViewModel> assemblies)
+        public static void ReferenceAssemblies(params Core.Assemblies.AssemblyViewModel[] assemblies)
         {
             foreach (var a in assemblies)
                 Core.Evaluator.Inst.LoadAssembly(a.Path);
@@ -36,6 +38,10 @@ namespace SuperShell.Util
             return Core.Evaluator.Inst.LoadedAssemblyLocations
                 .Select(i => new Core.Assemblies.AssemblyViewModel(i))
                 .ToList();
+        }
+        public static void Clear()
+        {
+            ((Ui.Host.Tabs.SelectedItem as TabItem)?.Content as ShellTab)?.ClearAll();
         }
     }
 }
