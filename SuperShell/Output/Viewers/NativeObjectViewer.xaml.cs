@@ -16,19 +16,40 @@ using System.Windows.Shapes;
 
 namespace SuperShell.Output.Viewers
 {
+
+    public interface INOV
+    {
+        void AddProperty(string name, object val);
+    }
+
+
     /// <summary>
     /// Interaction logic for NativeObjectViewer.xaml
     /// </summary>
-    public partial class NativeObjectViewer : UserControl, IObjectViewer<object>
+    public partial class NativeObjectViewer : UserControl, INOV, IObjectViewer<object>
     {
+        const int MAX_OBJECTS = 80;
         static readonly List<Type> ExtendedPrimitives = new List<Type>()
         {
             typeof(string),
             typeof(decimal),
             typeof(TimeSpan)
         };
+
+        static Dictionary<Type, Action<INOV, object>> HowToExpand = new Dictionary<Type, Action<INOV, object>>();
+        public static bool HasExpander(Type type)
+        {
+            return HowToExpand.ContainsKey(type);
+        }
+        public static void AddExpander(Type type, Action<INOV, object> expander)
+        {
+            HowToExpand[type] = expander;
+        }
+
         bool _expanded = false;
         object _obj;
+
+
 
         public object UnderlyingObject
         {
@@ -76,7 +97,15 @@ namespace SuperShell.Output.Viewers
         {
             if (_obj == null||_expanded) return;
             _expanded = true;
+
+            if (HasExpander(_obj.GetType()))
+            {
+                HowToExpand[_obj.GetType()].Invoke(this, _obj);
+                return;
+            }
+
             Type T = GetEnumerableType(_obj.GetType());
+            
             if (T == null)
             {
                 foreach (var p in _obj.GetType().GetProperties())
@@ -105,7 +134,7 @@ namespace SuperShell.Output.Viewers
                     if (enumerable != null)
                     {
                         var count = enumerable.Cast<object>().Count();
-                        if (count < 50)
+                        if (count < MAX_OBJECTS)
                         {
                             foreach (var z in enumerable)
                             {
@@ -115,7 +144,7 @@ namespace SuperShell.Output.Viewers
                         else
                         {
                             int beg = 0;
-                            int div = (int)Math.Ceiling(count / 50.0);
+                            int div = (int)Math.Ceiling(count / (double)MAX_OBJECTS);
                             for(;beg<count;)
                             {
                                 int end = Math.Min(count, beg+div);
@@ -170,6 +199,11 @@ namespace SuperShell.Output.Viewers
         {
             stackPanel.Height = Double.NaN;
             ExpandObject();
+        }
+
+        void INOV.AddProperty(string name, object val)
+        {
+            AddProperty(name, val);
         }
     }
 }

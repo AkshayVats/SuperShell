@@ -28,7 +28,7 @@ namespace SuperShell.Core.Workspace
         {
             base.Write(value);
             Text += value;
-            throw new Exception("Slowing down!");
+            //throw new Exception("Slowing down!");
             //TextChange?.Invoke(this, value+"");
         }
         public override void Write(string value)

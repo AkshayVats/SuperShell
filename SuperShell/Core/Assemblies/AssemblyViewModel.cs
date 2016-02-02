@@ -30,5 +30,9 @@ namespace SuperShell.Core.Assemblies
             Version = _assemblyName.Version;
             IsReferenced = Evaluator.Inst.LoadedAssemblyLocations.Any(i => i.Equals(Path, StringComparison.OrdinalIgnoreCase));
         }
+        public string GetPath()
+        {
+            return Path;
+        }
     }
 }

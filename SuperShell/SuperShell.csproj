@@ -98,6 +98,7 @@
     <Compile Include="Core\Workspace\CommandHistoryManager.cs" />
     <Compile Include="Core\Workspace\ConsoleWriter.cs" />
     <Compile Include="Core\Evaluator.cs" />
+    <Compile Include="Output\Viewers\AssemblyViewer.cs" />
     <Compile Include="Util\Extensions.cs" />
     <Compile Include="Core\Workspace\Workspace.cs" />
     <Compile Include="Core\Workspace\WorkspaceModel.cs" />

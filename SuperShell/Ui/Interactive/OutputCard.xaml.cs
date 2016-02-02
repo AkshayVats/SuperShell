@@ -90,6 +90,7 @@ namespace SuperShell.Ui.Interactive
 
         private void cbViewers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //TODO: get rid of dynamic, does not support explicit interfaces
             dynamic output = Activator.CreateInstance(cbViewers.SelectedItem as Type);
             output.UnderlyingObject = ((dynamic)_underlyingObject);
             SetOutput(output.GetUi());

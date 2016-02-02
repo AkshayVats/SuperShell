@@ -127,7 +127,9 @@ namespace SuperShell.Core
         {
             TmpVar = obj;
             var varName = "var" + varCount;
-            Evaluate($"var {varName}=({obj.GetType().GetStringRepresentation()})SuperShell.Core.Evaluator.TmpVar;");
+            var msg = Evaluate($"var {varName}=({obj.GetType().GetStringRepresentation()})SuperShell.Core.Evaluator.TmpVar;");
+            if(msg.Errors.Length>0)
+                Evaluate($"var {varName}=SuperShell.Core.Evaluator.TmpVar;");
             varCount++;
             return varName;
         }

@@ -37,6 +37,7 @@ namespace SuperShell.Output
             {typeof(IEnumerable), new List<Type>() {typeof(Viewers.ListViewer) } },
             {typeof(ImageSource), new List<Type>() {typeof(Viewers.ImageViewer) } },
             {typeof(FrameworkElement), new List<Type>() {typeof(Viewers.FrameworkElementViewer) } },
+            {typeof(System.Reflection.Assembly), new List<Type>() {typeof(Viewers.AssemblyViewer) } },
         };
         public static IEnumerable<Type> GetViewersFor(Type typ)
         {
